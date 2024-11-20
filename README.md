@@ -38,6 +38,13 @@ La interfaz administrativa deberá incluir las siguientes funcionalidades:
 #### **Capacidad del Gimnasio**
 - Monitorear el nivel de ocupación del gimnasio para garantizar que no exceda su capacidad máxima.
 
+### **Registrar clases**
+- El administrador debe poder registrar clases grupales de las que se deben tener:
+  - Nombre o tema de la clase
+  - Entrenador
+  - Horario
+- Las clases son abiertas para todos los miembros del gimnasio y no hace falta registrarse
+
 #### **Ventana de Pruebas**
 - Incluir una herramienta para simular cambios en los estados del sistema (por ejemplo, modificar la capacidad del gimnasio) para facilitar la demostración del proyecto.
 
