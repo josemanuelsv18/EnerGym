@@ -17,9 +17,14 @@ La interfaz administrativa deberá incluir las siguientes funcionalidades:
   - Nombre.
   - Apellido.
   - Número de cédula.
+- Datos extra a registrar por usuario (opcionales):
+  - Edad
+  - Fecha Inscripcion
+  - Datos de pago (tarjeta de credito encriptada)
 - Modificar el estado de los usuarios:
   - **Estados posibles**: Premium, General, Retirado, Moroso.
   - Gestionar deudas de usuarios con el gimnasio.
+  - Permitir el pago de la mensualidad en efectivo.
 - Retirar y eliminar usuarios del sistema.
 
 #### **Control de Accesos**
@@ -48,6 +53,7 @@ La interfaz web deberá proporcionar las siguientes funcionalidades para los usu
 #### **Acceso y Gestión de Perfil**
 - Inicio de sesión.
 - Inscripción y retiro del gimnasio.
+  - Se deben solicitar los mismos datos para la inscripcion web que la inscripcion por admin
 - Generar un **código QR** de acceso:
   - Usuarios *Premium* podrán generar un segundo QR para invitados.
 
