@@ -6,7 +6,7 @@
                 <nuxt-link :to="item.link">{{ item.name }}</nuxt-link>
             </li>
        </ul>
-       <div v-if="homePage" class="bg-orange-400 rounded-full text-xl px-5 py-2 self-center shadow mx-4 hover:bg-yellow-400 hover:shadow-xl">
+       <div v-if="homePage" class="button px-5">
             ¡Inscribete ya!
        </div>
     </div>
