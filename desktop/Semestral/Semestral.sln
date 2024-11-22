@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35303.130
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Semestral", "Semestral.csproj", "{AA6ECB5F-1F49-4E5E-AF59-8F0E6709AD1C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AA6ECB5F-1F49-4E5E-AF59-8F0E6709AD1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA6ECB5F-1F49-4E5E-AF59-8F0E6709AD1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA6ECB5F-1F49-4E5E-AF59-8F0E6709AD1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA6ECB5F-1F49-4E5E-AF59-8F0E6709AD1C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A66BB896-5FB1-43D8-B561-B9B5886D89AD}
+	EndGlobalSection
+EndGlobal
