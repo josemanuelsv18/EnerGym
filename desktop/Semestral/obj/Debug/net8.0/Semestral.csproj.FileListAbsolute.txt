@@ -61,3 +61,9 @@ C:\Users\derli\Documents\C# Documents\Semestral\obj\Debug\net8.0\refint\Semestra
 C:\Users\derli\Documents\C# Documents\Semestral\obj\Debug\net8.0\Semestral.pdb
 C:\Users\derli\Documents\C# Documents\Semestral\obj\Debug\net8.0\Semestral.genruntimeconfig.cache
 C:\Users\derli\Documents\C# Documents\Semestral\obj\Debug\net8.0\ref\Semestral.dll
+C:\Users\derli\Documents\C# Documents\Semestral\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\derli\Documents\C# Documents\Semestral\bin\Debug\net8.0\System.Drawing.Common.dll
+C:\Users\derli\Documents\C# Documents\Semestral\bin\Debug\net8.0\System.Private.Windows.Core.dll
+C:\Users\derli\Documents\C# Documents\Semestral\bin\Debug\net8.0\runtimes\win\lib\net8.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\derli\Documents\C# Documents\Semestral\bin\Debug\net8.0\zxing.dll
+C:\Users\derli\Documents\C# Documents\Semestral\bin\Debug\net8.0\libman.json

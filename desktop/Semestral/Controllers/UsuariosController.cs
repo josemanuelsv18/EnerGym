@@ -4,6 +4,11 @@ using Semestral.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using Azure.Core;
+using ZXing;
+using System.Drawing;
+using System.IO;
+using Microsoft.AspNetCore.Identity.Data;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Semestral.Controllers
 {
@@ -14,20 +19,29 @@ namespace Semestral.Controllers
         private DB db = new DB();
         private Seguridad seguridad = new Seguridad();
 
-        private bool Valido(string estado) {
+        #region VistaDesktop
+        private bool Valido(string estado)
+        {
             return estado == "Premium" || estado == "General" || estado == "Moroso" || estado == "Retirado";
         }
 
-        private bool ValidoMetodoPago (string metodoPago)
+        private bool ValidoMetodoPago(string metodoPago)
         {
             return metodoPago == "Tarjeta" || metodoPago == "Efectivo";
+        }
+
+        private bool CapacidadValida()
+        {
+            return db.GimnasioCapacidadActual() < 100;
         }
 
         // Registrar nuevos usuarios
         [HttpPost]
         [Route("guardar")]
-        public ApiResponse<object> GuardarUsuario(UsuarioRequest usuario) {
-            if (!Valido(usuario.estado)) {
+        public ApiResponse<object> GuardarUsuario(UsuarioRequest usuario)
+        {
+            if (!Valido(usuario.estado))
+            {
                 return new ApiResponse<object>
                 {
                     Titulo = "Error",
@@ -37,7 +51,8 @@ namespace Semestral.Controllers
                 };
             }
 
-            if (db.ExisteCedula(usuario.cedula)) {
+            if (db.ExisteCedula(usuario.cedula))
+            {
                 return new ApiResponse<object>
                 {
                     Titulo = "Error",
@@ -47,8 +62,21 @@ namespace Semestral.Controllers
                 };
             }
 
-            var guardado = db.InsertarUsuario(usuario);
-            if (guardado > 0) {
+            string contraseñaEncriptada = seguridad.Encriptar(usuario.contraseña);
+
+            var usuariO = new UsuarioRequest
+            {
+                nombre = usuario.nombre,
+                apellido = usuario.apellido,
+                contraseña = contraseñaEncriptada,
+                cedula = usuario.cedula,
+                edad = usuario.edad,
+                estado = usuario.estado
+            };
+            
+            var guardado = db.InsertarUsuario(usuariO);
+            if (guardado > 0)
+            {
                 return new ApiResponse<object>
                 {
                     Titulo = "Exito al guardar",
@@ -69,8 +97,10 @@ namespace Semestral.Controllers
         // Editar datos de usuarios
         [HttpPost]
         [Route("editar/{id}")]
-        public ApiResponse<object> EditarUsuario(int id, UsuarioRequest usuario) {
-            if (!Valido(usuario.estado)) {
+        public ApiResponse<object> EditarUsuario(int id, UsuarioRequest usuario)
+        {
+            if (!Valido(usuario.estado))
+            {
                 return new ApiResponse<object>
                 {
                     Titulo = "Error",
@@ -80,7 +110,8 @@ namespace Semestral.Controllers
                 };
             }
 
-            if (db.ExisteCedulaParaEditar(id, usuario.cedula)) {
+            if (db.ExisteCedulaParaEditar(id, usuario.cedula))
+            {
                 return new ApiResponse<object>
                 {
                     Titulo = "Error",
@@ -90,8 +121,21 @@ namespace Semestral.Controllers
                 };
             }
 
+            string contraseñaEncriptada = seguridad.Encriptar(usuario.contraseña);
+
+            var usuariO = new UsuarioRequest
+            {
+                nombre = usuario.nombre,
+                apellido = usuario.apellido,
+                contraseña = contraseñaEncriptada,
+                cedula = usuario.cedula,
+                edad = usuario.edad,
+                estado = usuario.estado
+            };
+
             var editado = db.ActualizarUsuario(id, usuario);
-            if (editado > 0) {
+            if (editado > 0)
+            {
                 return new ApiResponse<object>
                 {
                     Titulo = "Exito al editar",
@@ -113,7 +157,8 @@ namespace Semestral.Controllers
         // Buscar usuarios por nombre, apellido y número de cédula
         [HttpGet]
         [Route("buscar")]
-        public List<Usuario> BuscarUsuario(string nombre = null, string apellido = null, string cedula = null) {
+        public List<Usuario> BuscarUsuario(string nombre = null, string apellido = null, string cedula = null)
+        {
             return db.BuscarUsuario(nombre, apellido, cedula);
         }
 
@@ -145,7 +190,8 @@ namespace Semestral.Controllers
             }
 
             var actualizado = db.ActualizarEstado(id, nuevoEstado);
-            if (actualizado > 0) {
+            if (actualizado > 0)
+            {
                 return new ApiResponse<object>
                 {
                     Titulo = "Exito al guardar",
@@ -167,9 +213,11 @@ namespace Semestral.Controllers
         // Eliminar usuario
         [HttpDelete]
         [Route("{id}")]
-        public ApiResponse<object> EliminarUsuario(int id) {
+        public ApiResponse<object> EliminarUsuario(int id)
+        {
             var eliminado = db.BorrarUsuario(id);
-            if (eliminado > 0) {
+            if (eliminado > 0)
+            {
                 return new ApiResponse<object>
                 {
                     Titulo = "Éxito al eliminar",
@@ -191,7 +239,8 @@ namespace Semestral.Controllers
         // Registrar targeta
         [HttpPost]
         [Route("tarjeta/guardar")]
-        public ApiResponse<object> GuardarTarjeta([FromBody] TarjetaRequest request) {
+        public ApiResponse<object> GuardarTarjeta([FromBody] TarjetaRequest request)
+        {
             if (db.ExisteTarjeta(request.usuarioID, request.numeroTarjeta))
             {
                 return new ApiResponse<object>
@@ -215,7 +264,8 @@ namespace Semestral.Controllers
             };
 
             var guardado = db.InsertarTarjeta(tarjeta);
-            if (guardado > 0) {
+            if (guardado > 0)
+            {
                 return new ApiResponse<object>
                 {
                     Titulo = "Éxito al guardar tarjeta",
@@ -237,7 +287,8 @@ namespace Semestral.Controllers
         // Registar deudas
         [HttpPost]
         [Route("deudas")]
-        public ApiResponse<object> RegistrarDeudas([FromBody] DeudasRequest request) {
+        public ApiResponse<object> RegistrarDeudas([FromBody] DeudasRequest request)
+        {
             if (!db.ExisteUsuario(request.usuarioID))
             {
                 return new ApiResponse<object>
@@ -272,16 +323,19 @@ namespace Semestral.Controllers
         // Buscar deudas por usuario
         [HttpGet]
         [Route("deudas/{id}")]
-        public List<Deudas> ObtenerDeudasPorUsuario(int usuarioId) {
+        public List<Deudas> ObtenerDeudasPorUsuario(int usuarioId)
+        {
             return db.ObtenerDeudaPorId(usuarioId);
         }
 
         // Realizar/Registrar pagos
         [HttpPost]
         [Route("pagos")]
-        public ApiResponse<object> RealizarPago([FromBody] PagoRequest pago) {
+        public ApiResponse<object> RealizarPago([FromBody] PagoRequest pago)
+        {
             List<Deudas> deuda = db.ObtenerDeudaPorId(pago.usuarioID);
-            if (deuda.Count() == 0) {
+            if (deuda.Count() == 0)
+            {
                 return new ApiResponse<object>
                 {
                     Titulo = "Error",
@@ -303,7 +357,8 @@ namespace Semestral.Controllers
             }
 
             bool pagoExitoso = db.RegistrarPago(pago);
-            if (pagoExitoso) {
+            if (pagoExitoso)
+            {
                 return new ApiResponse<object>
                 {
                     Titulo = "Exito al realizar pago",
@@ -321,5 +376,166 @@ namespace Semestral.Controllers
                 Data = null
             };
         }
+
+        // Validar acceso de usuario
+        [HttpPost]
+        [Route("acceso/entrada")]
+        public ApiResponse<object> RegistrarEntrada([FromBody] string qrCodigo)
+        {
+            var usuario = db.BuscarUsuarioPorQR(qrCodigo);
+            if (usuario != null)
+            {
+                return new ApiResponse<object>
+                {
+                    Titulo = "Error",
+                    Mensaje = "Código QR inválido.",
+                    Code = 404,
+                    Data = null
+                };
+            }
+
+            if (usuario[0].estado != "General" || usuario[0].estado != "Premium")
+            {
+                return new ApiResponse<object>
+                {
+                    Titulo = "Acceso Denegado",
+                    Mensaje = "El usuario no tiene acceso al gimnasio.",
+                    Code = 403,
+                    Data = null
+                };
+            }
+
+            if (!CapacidadValida())
+            {
+                return new ApiResponse<object>
+                {
+                    Titulo = "Capacidad Llena",
+                    Mensaje = "El gimnasio ha alcanzado su capacidad máxima.",
+                    Code = 400,
+                    Data = null
+                };
+            }
+
+            var entradaRegistrada = db.RegistrarEntrada(usuario[0].id, "Entrada", "Generado");
+            if (entradaRegistrada)
+            {
+                return new ApiResponse<object>
+                {
+                    Titulo = "Acceso Permitido",
+                    Mensaje = "Entrada registrada exitosamente.",
+                    Code = 200,
+                    Data = null
+                };
+            }
+
+            return new ApiResponse<object>
+            {
+                Titulo = "Error",
+                Mensaje = "Ocurrió un error al registrar la entrada.",
+                Code = 500,
+                Data = null
+            };
+        }
+
+        // Registrar salida
+        [HttpPost]
+        [Route("acceso/salida")]
+        public ApiResponse<object> RegistrarSalida(int usuarioID)
+        {
+            int salida = db.RegistrarSalida(usuarioID);
+
+            if (salida > 0)
+            {
+                return new ApiResponse<object>
+                {
+                    Titulo = "Salida registrada",
+                    Mensaje = "El registro de salida se realizó correctamente.",
+                    Code = 200,
+                    Data = null
+                };
+            }
+
+            return new ApiResponse<object>
+            {
+                Titulo = "Error al registrar salida",
+                Mensaje = "No se encontró un registro de entrada válido en las últimas 5 horas. Verifique e intente nuevamente.",
+                Code = 400,
+                Data = null
+            };
+        }
+        #endregion
+
+        #region VistaWeb
+        [HttpPost]
+        [Route("login")]
+        public ApiResponse<object> IniciarSesion(InicioSesionRequest request)
+        {
+            var usuario = db.ObtenerUsuarioPorCredenciales(request.cedula, request.contraseña);
+
+            if (usuario.Count == 0) {
+                return new ApiResponse<object>
+                {
+                    Titulo = "Error de autenticación",
+                    Mensaje = "Cédula incorrecta.",
+                    Code = 401,
+                    Data = null
+                };
+            }
+            var xD = 0;
+            var contraseñaDesencriptada = seguridad.Desencriptar(usuario[0].contraseña);
+            if (contraseñaDesencriptada == request.contraseña) {
+                return new ApiResponse<object>
+                {
+                    Titulo = "Inicio de sesión exitoso",
+                    Mensaje = "Bienvenido al sistema.",
+                    Code = 200,
+                    Data = new { UsuarioID = usuario[0].id, Nombre = usuario[0].nombre }
+                };
+            }
+
+            return new ApiResponse<object>
+            {
+                Titulo = "Error de autenticación",
+                Mensaje = "Contraseña incorrecta.",
+                Code = 401,
+                Data = null
+            };
+        }
+
+        [HttpPost]
+        [Route("retirarse/{id}")]
+        public ApiResponse<object> DarseDeBaja(int id) {
+            if (!db.ExisteUsuario(id))
+            {
+                return new ApiResponse<object>
+                {
+                    Titulo = "Error",
+                    Mensaje = "Este usuario no esta en nuestra base de datos.",
+                    Code = 409,
+                    Data = null
+                };
+            }
+
+            var actualizado = db.ActualizarEstado(id, "Retirado");
+            if (actualizado > 0)
+            {
+                return new ApiResponse<object>
+                {
+                    Titulo = "Exito",
+                    Mensaje = "Los datos se han guardado correctamente",
+                    Code = 200,
+                    Data = null
+                };
+            }
+
+            return new ApiResponse<object>
+            {
+                Titulo = "Error al actualizar estado",
+                Mensaje = "Hubo un error con los datos, por favor revisar.",
+                Code = 400,
+                Data = null
+            };
+        }
+        #endregion
     }
 }

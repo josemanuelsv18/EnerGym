@@ -39,28 +39,43 @@ public class Seguridad
         string clave = "clavePrueba1234";
         string iv = "vectorInicial123";
 
-        using (Aes aesAlg = Aes.Create())
-        {
-            aesAlg.Key = new byte[16];
-            Array.Copy(Encoding.UTF8.GetBytes(clave), aesAlg.Key, Math.Min(aesAlg.Key.Length, Encoding.UTF8.GetBytes(clave).Length));
-
-            aesAlg.IV = new byte[16];
-            Array.Copy(Encoding.UTF8.GetBytes(iv), aesAlg.IV, Math.Min(aesAlg.IV.Length, Encoding.UTF8.GetBytes(iv).Length));
-
-            ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
-
-            byte[] buffer = Convert.FromBase64String(textoEncriptado);
-
-            using (MemoryStream ms = new MemoryStream(buffer))
+        try {
+            using (Aes aesAlg = Aes.Create())
             {
-                using (CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
+                aesAlg.Key = new byte[16];
+                Array.Copy(Encoding.UTF8.GetBytes(clave), aesAlg.Key, Math.Min(aesAlg.Key.Length, Encoding.UTF8.GetBytes(clave).Length));
+
+                aesAlg.IV = new byte[16];
+                Array.Copy(Encoding.UTF8.GetBytes(iv), aesAlg.IV, Math.Min(aesAlg.IV.Length, Encoding.UTF8.GetBytes(iv).Length));
+
+                ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+
+                byte[] buffer;
+                try
                 {
-                    using (StreamReader sr = new StreamReader(cs))
+                    buffer = Convert.FromBase64String(textoEncriptado);
+                }
+                catch (FormatException)
+                {
+                    throw new ArgumentException("El texto encriptado no tiene un formato válido de Base64.", nameof(textoEncriptado));
+                }
+
+                using (MemoryStream ms = new MemoryStream(buffer))
+                {
+                    using (CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
                     {
-                        return sr.ReadToEnd();
+                        using (StreamReader sr = new StreamReader(cs))
+                        {
+                            return sr.ReadToEnd();
+                        }
                     }
                 }
             }
+        }
+        catch (Exception ex)
+        {
+            // Agregar manejo de excepciones para ver el origen exacto del error
+            throw new InvalidOperationException("Ocurrió un error al desencriptar el texto.", ex);
         }
     }
 }

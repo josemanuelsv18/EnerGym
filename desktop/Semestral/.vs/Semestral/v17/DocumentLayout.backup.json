@@ -1,122 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\derli\\Documents\\C# Documents\\Semestral\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{AA6ECB5F-1F49-4E5E-AF59-8F0E6709AD1C}|Semestral.csproj|c:\\users\\derli\\documents\\c# documents\\semestral\\datos\\db.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA6ECB5F-1F49-4E5E-AF59-8F0E6709AD1C}|Semestral.csproj|solutionrelative:datos\\db.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AA6ECB5F-1F49-4E5E-AF59-8F0E6709AD1C}|Semestral.csproj|c:\\users\\derli\\documents\\c# documents\\semestral\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA6ECB5F-1F49-4E5E-AF59-8F0E6709AD1C}|Semestral.csproj|solutionrelative:controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AA6ECB5F-1F49-4E5E-AF59-8F0E6709AD1C}|Semestral.csproj|c:\\users\\derli\\documents\\c# documents\\semestral\\models\\deudas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA6ECB5F-1F49-4E5E-AF59-8F0E6709AD1C}|Semestral.csproj|solutionrelative:models\\deudas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AA6ECB5F-1F49-4E5E-AF59-8F0E6709AD1C}|Semestral.csproj|c:\\users\\derli\\documents\\c# documents\\semestral\\models\\deudasrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA6ECB5F-1F49-4E5E-AF59-8F0E6709AD1C}|Semestral.csproj|solutionrelative:models\\deudasrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AA6ECB5F-1F49-4E5E-AF59-8F0E6709AD1C}|Semestral.csproj|c:\\users\\derli\\documents\\c# documents\\semestral\\models\\pagorequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA6ECB5F-1F49-4E5E-AF59-8F0E6709AD1C}|Semestral.csproj|solutionrelative:models\\pagorequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AA6ECB5F-1F49-4E5E-AF59-8F0E6709AD1C}|Semestral.csproj|c:\\users\\derli\\documents\\c# documents\\semestral\\models\\tarjeta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA6ECB5F-1F49-4E5E-AF59-8F0E6709AD1C}|Semestral.csproj|solutionrelative:models\\tarjeta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 2,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "PagoRequest.cs",
-              "DocumentMoniker": "C:\\Users\\derli\\Documents\\C# Documents\\Semestral\\Models\\PagoRequest.cs",
-              "RelativeDocumentMoniker": "Models\\PagoRequest.cs",
-              "ToolTip": "C:\\Users\\derli\\Documents\\C# Documents\\Semestral\\Models\\PagoRequest.cs",
-              "RelativeToolTip": "Models\\PagoRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-21T23:07:33.642Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Deudas.cs",
-              "DocumentMoniker": "C:\\Users\\derli\\Documents\\C# Documents\\Semestral\\Models\\Deudas.cs",
-              "RelativeDocumentMoniker": "Models\\Deudas.cs",
-              "ToolTip": "C:\\Users\\derli\\Documents\\C# Documents\\Semestral\\Models\\Deudas.cs",
-              "RelativeToolTip": "Models\\Deudas.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-21T22:42:17.708Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "DB.cs",
-              "DocumentMoniker": "C:\\Users\\derli\\Documents\\C# Documents\\Semestral\\Datos\\DB.cs",
-              "RelativeDocumentMoniker": "Datos\\DB.cs",
-              "ToolTip": "C:\\Users\\derli\\Documents\\C# Documents\\Semestral\\Datos\\DB.cs",
-              "RelativeToolTip": "Datos\\DB.cs",
-              "ViewState": "AgIAAJoBAAAAAAAAAAAmwK8BAACEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-21T22:27:30.849Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Tarjeta.cs",
-              "DocumentMoniker": "C:\\Users\\derli\\Documents\\C# Documents\\Semestral\\Models\\Tarjeta.cs",
-              "RelativeDocumentMoniker": "Models\\Tarjeta.cs",
-              "ToolTip": "C:\\Users\\derli\\Documents\\C# Documents\\Semestral\\Models\\Tarjeta.cs",
-              "RelativeToolTip": "Models\\Tarjeta.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-21T22:26:04.681Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "DeudasRequest.cs",
-              "DocumentMoniker": "C:\\Users\\derli\\Documents\\C# Documents\\Semestral\\Models\\DeudasRequest.cs",
-              "RelativeDocumentMoniker": "Models\\DeudasRequest.cs",
-              "ToolTip": "C:\\Users\\derli\\Documents\\C# Documents\\Semestral\\Models\\DeudasRequest.cs",
-              "RelativeToolTip": "Models\\DeudasRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-21T22:25:40.133Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "UsuariosController.cs",
-              "DocumentMoniker": "C:\\Users\\derli\\Documents\\C# Documents\\Semestral\\Controllers\\UsuariosController.cs",
-              "RelativeDocumentMoniker": "Controllers\\UsuariosController.cs",
-              "ToolTip": "C:\\Users\\derli\\Documents\\C# Documents\\Semestral\\Controllers\\UsuariosController.cs",
-              "RelativeToolTip": "Controllers\\UsuariosController.cs",
-              "ViewState": "AgIAABwBAAAAAAAAAAAswDABAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-21T22:22:16.499Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
+      "DocumentGroups": []
     }
   ]
 }
