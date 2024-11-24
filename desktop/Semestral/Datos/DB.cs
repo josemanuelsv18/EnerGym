@@ -199,7 +199,39 @@ namespace Semestral.Datos
 
                 throw;
             }
-            finally { cmd.Connection.Close(); }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+        }
+
+        public bool CrearReserva(ReservaRequest reserva)
+        {
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText =
+                    "INSERT INTO Reservas(usuarioId, fechaReserva, horaReserva, estado) " +
+                    "VALUES (@usuarioId, @fechaReserva, @horaReserva, 'Pendiente')";
+                cmd.Parameters.Add(new SqlParameter("@usuarioId", reserva.usuarioId));
+                cmd.Parameters.Add(new SqlParameter("@fechaReserva", reserva.fechaReserva));
+                cmd.Parameters.Add(new SqlParameter("@horaReserva", reserva.horaReserva));
+
+                cmd.Connection.Open();
+                int filas = cmd.ExecuteNonQuery();
+
+                return filas > 0;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
         }
         #endregion
 
@@ -426,6 +458,30 @@ namespace Semestral.Datos
                 cmd.Connection.Open();
 
                 capacidad = Convert.ToInt32(cmd.ExecuteScalar());
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+            return capacidad;
+        }
+
+        public string GimnasioCapacidadPorcentual()
+        {
+            string capacidad;
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT CAST((CAST(ocupacionActual AS FLOAT) / capacidadMaxima) * 100 AS VARCHAR(10)) + '%' FROM Gimnasio";
+
+                cmd.Connection.Open();
+
+                capacidad = cmd.ExecuteScalar().ToString();
             }
             catch (Exception ex)
             {
@@ -684,6 +740,97 @@ namespace Semestral.Datos
                 cmd.Connection.Close();
             }
         }
+
+        public List<Horarios> ObtenerHorarios()
+        {
+            List<Horarios> horarios = new List<Horarios>();
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = 
+                    "SELECT " +
+                    "    CASE dias " +
+                    "        WHEN 1 THEN 'Lunes'" +
+                    "        WHEN 2 THEN 'Martes'" +
+                    "        WHEN 3 THEN 'Miércoles'" +
+                    "        WHEN 4 THEN 'Jueves'" +
+                    "        WHEN 5 THEN 'Viernes'" +
+                    "        WHEN 6 THEN 'Sábado'" +
+                    "        WHEN 7 THEN 'Domingo'" +
+                    "        WHEN 8 THEN 'Feriados'" +
+                    "    END AS Dia," +
+                    "    CONVERT(NVARCHAR(5), horaInicio) AS horaInicio," +
+                    "    CONVERT(NVARCHAR(5), horaFinal) AS horaFinal" +
+                    " FROM Horarios" +
+                    " WHERE activo = 1;";
+
+                cmd.Connection.Open();
+                ds = new DataSet();
+                adapter = new SqlDataAdapter(cmd);
+                adapter.Fill(ds);
+
+                foreach (DataTable table in ds.Tables)
+                {
+                    foreach (DataRow row in table.Rows)
+                    {
+                        var horario = new Horarios()
+                        {
+                            dias = row["Dia"].ToString(),
+                            horaInicio = row["horaInicio"].ToString(),
+                            horaFinal = row["horaFinal"].ToString()
+                        };
+                        horarios.Add(horario);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+            return horarios;
+        }
+
+        public bool EsHoraValido()
+        {
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT 1 FROM Horarios WHERE activo = 1 AND dias = @dia AND @horaActual BETWEEN horaInicio AND horaFinal;";
+
+                int diaSemana = (int)DateTime.Now.DayOfWeek;
+                int diaAjustado;
+                if (diaSemana == 0)
+                {
+                    diaAjustado = 7;
+                }
+                else
+                {
+                    diaAjustado = diaSemana;
+                }
+
+                string horaActual = DateTime.Now.ToString("HH:mm");
+                cmd.Parameters.Add(new SqlParameter("@dia", diaAjustado));
+                cmd.Parameters.Add(new SqlParameter("@horaActual", horaActual));
+
+                cmd.Connection.Open(); 
+                var result = cmd.ExecuteScalar();
+                return result != null;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+        }
         #endregion
 
         #region UPDATES
@@ -728,6 +875,28 @@ namespace Semestral.Datos
                 cmd.Connection.Open();
                 int filas = cmd.ExecuteNonQuery();
                 return filas;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+        }
+
+        public void ActualizarCapacidad(int val)
+        {
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "UPDATE Gimnasio SET ocupacionActual = ocupacionActual + @val";
+                cmd.Parameters.Add(new SqlParameter("@val", val));
+
+                cmd.Connection.Open();
+                int filas = cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {

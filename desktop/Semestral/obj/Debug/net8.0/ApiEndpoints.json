@@ -66,6 +66,46 @@
     ]
   },
   {
+    "ContainingType": "Semestral.Controllers.GimnasioController",
+    "Method": "ObtenerCapacidadPor",
+    "RelativePath": "api/Gimnasio/capacidad%",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Semestral.Controllers.GimnasioController",
+    "Method": "ObtenerHorarios",
+    "RelativePath": "api/Gimnasio/horarios",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[Semestral.Models.Horarios, Semestral, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "Semestral.Controllers.UsuariosController",
     "Method": "EliminarUsuario",
     "RelativePath": "api/Usuarios/{id}",
@@ -235,17 +275,7 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "Semestral.Models.ApiResponse\u00601[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "Semestral.Controllers.UsuariosController",

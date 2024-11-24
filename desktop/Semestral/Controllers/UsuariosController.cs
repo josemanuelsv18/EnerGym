@@ -95,27 +95,25 @@ namespace Semestral.Controllers
         // Editar datos de usuarios
         [HttpPost]
         [Route("editar/{id}")]
-        public ApiResponse<object> EditarUsuario(int id, UsuarioRequest usuario)
+        public object EditarUsuario(int id, UsuarioRequest usuario)
         {
             if (!Valido(usuario.estado))
             {
-                return new ApiResponse<object>
+                return new
                 {
                     Titulo = "Error",
                     Mensaje = "El estado del usuario no es válido. Valores permitidos: Premium, General, Moroso, Retirado.",
-                    Code = 400,
-                    Data = null
+                    Code = 400
                 };
             }
 
             if (db.ExisteCedulaParaEditar(id, usuario.cedula))
             {
-                return new ApiResponse<object>
+                return new
                 {
                     Titulo = "Error",
                     Mensaje = "Esta cédula ya está registrada.",
-                    Code = 409,
-                    Data = null
+                    Code = 409
                 };
             }
 
@@ -134,21 +132,19 @@ namespace Semestral.Controllers
             var editado = db.ActualizarUsuario(id, usuario);
             if (editado > 0)
             {
-                return new ApiResponse<object>
+                return new
                 {
                     Titulo = "Exito al editar",
                     Mensaje = "Los datos se han editado correctamente",
-                    Code = 200,
-                    Data = null
+                    Code = 200
                 };
             }
 
-            return new ApiResponse<object>
+            return new
             {
                 Titulo = "Error al guardar",
                 Mensaje = "Hubo un error con los datos, por favor revisar.",
-                Code = 400,
-                Data = null
+                Code = 400
             };
         }
 
@@ -375,7 +371,6 @@ namespace Semestral.Controllers
         [Route("acceso/entrada")]
         public object RegistrarEntrada([FromBody] string qrCodigo)
         {
-            // Buscar al usuario por su código QR
             var usuario = db.BuscarUsuarioPorQR(qrCodigo);
             if (usuario.Count == 0)
             {
@@ -387,7 +382,6 @@ namespace Semestral.Controllers
                 };
             }
 
-            // Validar que el usuario tiene un estado permitido
             if (usuario[0].estado != "General" && usuario[0].estado != "Premium")
             {
                 return new
@@ -398,7 +392,6 @@ namespace Semestral.Controllers
                 };
             }
 
-            // Validar si ya tiene una entrada activa sin salida
             bool tieneEntradaActiva = db.ValidarEntradaActiva(usuario[0].id);
             if (tieneEntradaActiva)
             {
@@ -410,7 +403,6 @@ namespace Semestral.Controllers
                 };
             }
 
-            // Validar la capacidad del gimnasio
             if (!CapacidadValida())
             {
                 return new
@@ -421,10 +413,21 @@ namespace Semestral.Controllers
                 };
             }
 
-            // Registrar la entrada
+            bool horarioValido = db.EsHoraValido();
+            if (!horarioValido)
+            {
+                return new
+                {
+                    Titulo = "Acceso Denegado",
+                    Mensaje = "El gimnasio está cerrado en este horario.",
+                    Code = 403
+                };
+            }
+
             var entradaRegistrada = db.RegistrarEntrada(usuario[0].id, "Entrada", "Generado");
             if (entradaRegistrada)
             {
+                db.ActualizarCapacidad(1);
                 return new
                 {
                     Titulo = "Acceso Permitido",
@@ -433,7 +436,6 @@ namespace Semestral.Controllers
                 };
             }
 
-            // En caso de error al registrar la entrada
             return new
             {
                 Titulo = "Error",
@@ -463,6 +465,7 @@ namespace Semestral.Controllers
 
             if (salidaRegistrada)
             {
+                db.ActualizarCapacidad(-1);
                 return new
                 {
                     Titulo = "Salida registrada",
@@ -614,6 +617,39 @@ namespace Semestral.Controllers
         public string ObtenerQRInv(string cedula)
         {
             return db.QRUsuarioInv(cedula);
+        }
+
+        [HttpPost]
+        [Route("reservas/crear")]
+        public object CrearReserva(ReservaRequest reserva)
+        {
+            if (!CapacidadValida())
+            {
+                return new
+                {
+                    Titulo = "Capacidad llena",
+                    Mensaje = "No hay disponibilidad para realizar la reserva en este momento.",
+                    Code = 400
+                };
+            }
+
+            var reservaCreada = db.CrearReserva(reserva);
+            if (reservaCreada)
+            {
+                return new
+                {
+                    Titulo = "Reserva confirmada",
+                    Mensaje = "La reserva se ha realizado correctamente.",
+                    Code = 200
+                };
+            }
+
+            return new
+            {
+                Titulo = "Error al crear reserva",
+                Mensaje = "Hubo un problema al crear la reserva. Por favor intente de nuevo.",
+                Code = 500
+            };
         }
         #endregion
     }
