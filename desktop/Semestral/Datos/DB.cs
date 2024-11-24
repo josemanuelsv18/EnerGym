@@ -3,6 +3,7 @@ using System;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using ZXing;
 
 namespace Semestral.Datos
 {
@@ -177,23 +178,60 @@ namespace Semestral.Datos
             finally { cmd.Connection.Close(); }
         }
 
-        public int RegistrarSalida(int usuarioID) {
-            try {
+        public bool RegistrarSalida(int id, string tipo, string estado)
+        {
+            try
+            {
                 cmd.Parameters.Clear();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT TOP 1 id, create_at FROM Accesos WHERE usuarioId = @usuarioID AND tipo = 'Entrada' AND estado = 'Generado' AND create_at >= DATEADD(HOUR, -5, GETDATE()) ORDER BY created_at DESC";
-                cmd.Parameters.Add(new SqlParameter("@usuarioID", usuarioID));
+                cmd.CommandText = "INSERT INTO Accesos (usuarioId, tipo, estado) VALUES (@usuarioID, @tipo, @estado);";
+
+                cmd.Parameters.Add(new SqlParameter("@usuarioID", id));
+                cmd.Parameters.Add(new SqlParameter("@tipo", tipo));
+                cmd.Parameters.Add(new SqlParameter("@estado", estado));
 
                 cmd.Connection.Open();
-                int reg = Convert.ToInt32(cmd.ExecuteScalar());
-                return reg;
+                int inserted = Convert.ToInt32(cmd.ExecuteNonQuery());
+                return inserted > 0;
             }
             catch (Exception ex)
             {
 
                 throw;
             }
-            finally { cmd.Connection.Close(); }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+        }
+
+        public bool CrearReserva(ReservaRequest reserva)
+        {
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText =
+                    "INSERT INTO Reservas(usuarioId, fechaReserva, horaReserva, estado) " +
+                    "VALUES (@usuarioId, @fechaReserva, @horaReserva, 'Pendiente')";
+                cmd.Parameters.Add(new SqlParameter("@usuarioId", reserva.usuarioId));
+                cmd.Parameters.Add(new SqlParameter("@fechaReserva", reserva.fechaReserva));
+                cmd.Parameters.Add(new SqlParameter("@horaReserva", reserva.horaReserva));
+
+                cmd.Connection.Open();
+                int filas = cmd.ExecuteNonQuery();
+
+                return filas > 0;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
         }
         #endregion
 
@@ -243,6 +281,7 @@ namespace Semestral.Datos
                             edad = Convert.ToInt32(row["edad"].ToString()),
                             estado = row["estado"].ToString(),
                             QRcodigo = row["QRcodigo"].ToString(),
+                            QRinvitado = row["QRinvitado"].ToString(),
                             fechaInscripcion = Convert.ToDateTime(row["fechaInscripcion"].ToString()),
                             updatedAt = Convert.ToDateTime(row["updated_at"])
                         };
@@ -431,6 +470,30 @@ namespace Semestral.Datos
             return capacidad;
         }
 
+        public string GimnasioCapacidadPorcentual()
+        {
+            string capacidad;
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT CAST((CAST(ocupacionActual AS FLOAT) / capacidadMaxima) * 100 AS VARCHAR(10)) + '%' FROM Gimnasio";
+
+                cmd.Connection.Open();
+
+                capacidad = cmd.ExecuteScalar().ToString();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+            return capacidad;
+        }
+
         public List<Clase> ObtenerClases()
         {
             List<Clase> clases = new List<Clase>();
@@ -481,7 +544,7 @@ namespace Semestral.Datos
             {
                 cmd.Parameters.Clear();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM Usuarios WHERE QRcodigo = @QRcodigo";
+                cmd.CommandText = "SELECT * FROM Usuarios WHERE QRcodigo = @QRcodigo;";
                 cmd.Parameters.Add(new SqlParameter("@QRcodigo", qrCodigo));
 
                 cmd.Connection.Open();
@@ -500,10 +563,11 @@ namespace Semestral.Datos
                             apellido = row["apellido"].ToString(),
                             contraseña = row["contraseña"].ToString(),
                             cedula = row["cedula"].ToString(),
-                            edad = Convert.ToInt32(row["estado"].ToString()),
+                            edad = Convert.ToInt32(row["edad"].ToString()),
                             estado = row["estado"].ToString(),
                             QRcodigo = row["QRcodigo"].ToString(),
-                            fechaInscripcion = Convert.ToDateTime(row["estado"]),
+                            QRinvitado = row["QRinvitado"].ToString(),
+                            fechaInscripcion = Convert.ToDateTime(row["fechaInscripcion"]),
                             updatedAt = Convert.ToDateTime(row["updated_at"])
                         };
                         usuarios.Add(usuario);
@@ -550,6 +614,7 @@ namespace Semestral.Datos
                             edad = Convert.ToInt32(row["edad"].ToString()),
                             estado = row["estado"].ToString(),
                             QRcodigo = row["QRcodigo"].ToString(),
+                            QRinvitado = row["QRinvitado"].ToString(),
                             fechaInscripcion = Convert.ToDateTime(row["fechaInscripcion"]),
                             updatedAt = Convert.ToDateTime(row["updated_at"])
                         };
@@ -566,6 +631,205 @@ namespace Semestral.Datos
                 cmd.Connection.Close();
             }
             return usuarios;
+        }
+
+        public int ValidarSalida(int usuarioID)
+        {
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT TOP 1 id, created_at FROM Accesos WHERE usuarioId = @usuarioID AND tipo = 'Entrada' AND estado = 'Generado' AND created_at >= DATEADD(HOUR, -5, GETDATE()) ORDER BY created_at DESC";
+                cmd.Parameters.Add(new SqlParameter("@usuarioID", usuarioID));
+
+                cmd.Connection.Open();
+                int reg = Convert.ToInt32(cmd.ExecuteScalar());
+                return reg;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            finally { cmd.Connection.Close(); }
+        }
+
+        public bool ValidarEntradaActiva(int usuarioID)
+        {
+            try 
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT COUNT(*) FROM Accesos WHERE usuarioID = @usuarioID AND tipo = 'Entrada' AND NOT EXISTS (SELECT 1 FROM Accesos WHERE usuarioID = @usuarioID AND tipo = 'Salida' AND created_at > (SELECT MAX(created_at) FROM Accesos WHERE usuarioID = @usuarioID AND tipo = 'Entrada'))";
+                cmd.Parameters.Add(new SqlParameter("@usuarioID", usuarioID));
+
+                cmd.Connection.Open();
+                int count = Convert.ToInt32(cmd.ExecuteScalar());
+                return count > 0;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+        }
+
+        public string QRUsuario(string cedula)
+        {
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT QRcodigo FROM Usuarios WHERE cedula = @cedula;";
+                cmd.Parameters.Add(new SqlParameter("@cedula", cedula));
+
+                cmd.Connection.Open();
+
+                var resul = cmd.ExecuteScalar();
+
+                if (resul != null)
+                {
+                    return resul.ToString();
+                }
+                else
+                {
+                    return "No se encontró el código QR para la cédula proporcionada.";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+        }
+
+        public string QRUsuarioInv(string cedula)
+        {
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT QRinvitado FROM Usuarios WHERE cedula = @cedula;";
+                cmd.Parameters.Add(new SqlParameter("@cedula", cedula));
+
+                cmd.Connection.Open();
+
+                var resul = cmd.ExecuteScalar();
+
+                if (resul != null)
+                {
+                    return resul.ToString();
+                }
+                else
+                {
+                    return "No se encontró el código QR para la cédula proporcionada.";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+        }
+
+        public List<Horarios> ObtenerHorarios()
+        {
+            List<Horarios> horarios = new List<Horarios>();
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = 
+                    "SELECT " +
+                    "    CASE dias " +
+                    "        WHEN 1 THEN 'Lunes'" +
+                    "        WHEN 2 THEN 'Martes'" +
+                    "        WHEN 3 THEN 'Miércoles'" +
+                    "        WHEN 4 THEN 'Jueves'" +
+                    "        WHEN 5 THEN 'Viernes'" +
+                    "        WHEN 6 THEN 'Sábado'" +
+                    "        WHEN 7 THEN 'Domingo'" +
+                    "        WHEN 8 THEN 'Feriados'" +
+                    "    END AS Dia," +
+                    "    CONVERT(NVARCHAR(5), horaInicio) AS horaInicio," +
+                    "    CONVERT(NVARCHAR(5), horaFinal) AS horaFinal" +
+                    " FROM Horarios" +
+                    " WHERE activo = 1;";
+
+                cmd.Connection.Open();
+                ds = new DataSet();
+                adapter = new SqlDataAdapter(cmd);
+                adapter.Fill(ds);
+
+                foreach (DataTable table in ds.Tables)
+                {
+                    foreach (DataRow row in table.Rows)
+                    {
+                        var horario = new Horarios()
+                        {
+                            dias = row["Dia"].ToString(),
+                            horaInicio = row["horaInicio"].ToString(),
+                            horaFinal = row["horaFinal"].ToString()
+                        };
+                        horarios.Add(horario);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+            return horarios;
+        }
+
+        public bool EsHoraValido()
+        {
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT 1 FROM Horarios WHERE activo = 1 AND dias = @dia AND @horaActual BETWEEN horaInicio AND horaFinal;";
+
+                int diaSemana = (int)DateTime.Now.DayOfWeek;
+                int diaAjustado;
+                if (diaSemana == 0)
+                {
+                    diaAjustado = 7;
+                }
+                else
+                {
+                    diaAjustado = diaSemana;
+                }
+
+                string horaActual = DateTime.Now.ToString("HH:mm");
+                cmd.Parameters.Add(new SqlParameter("@dia", diaAjustado));
+                cmd.Parameters.Add(new SqlParameter("@horaActual", horaActual));
+
+                cmd.Connection.Open(); 
+                var result = cmd.ExecuteScalar();
+                return result != null;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
         }
         #endregion
 
@@ -611,6 +875,28 @@ namespace Semestral.Datos
                 cmd.Connection.Open();
                 int filas = cmd.ExecuteNonQuery();
                 return filas;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+        }
+
+        public void ActualizarCapacidad(int val)
+        {
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "UPDATE Gimnasio SET ocupacionActual = ocupacionActual + @val";
+                cmd.Parameters.Add(new SqlParameter("@val", val));
+
+                cmd.Connection.Open();
+                int filas = cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {

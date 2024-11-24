@@ -11,16 +11,25 @@ namespace Semestral.Controllers
     {
         private DB db = new DB();
 
-        private bool CapacidadValida()
-        {
-            return db.GimnasioCapacidadActual() < 100;
-        }
-
         // Obtener capacidad actual del gimnasio
         [HttpGet]
         [Route("capacidad-actual")]
         public int ObtenerCapacidadActual() {
             return db.GimnasioCapacidadActual();
+        }
+
+        [HttpGet]
+        [Route("capacidad%")]
+        public string ObtenerCapacidadPor()
+        {
+            return db.GimnasioCapacidadPorcentual();
+        }
+
+        [HttpGet]
+        [Route("horarios")]
+        public List<Horarios> ObtenerHorarios()
+        {
+            return db.ObtenerHorarios();
         }
     }
 }
