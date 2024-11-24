@@ -1,12 +1,12 @@
 <template>
     <div class="flex w-screen shadow-lg">
        <img :src="logo" alt="logo" class="h-24 my-2 ml-1">
-       <ul class="flex items-center justify-around w-3/4 mx-4">
+       <ul class="flex items-center justify-around w-full mx-4">
             <li v-for="(item, index) in items" :key="index" class=" hover:bg-gray-300 hover:rounded-full px-4 py-1">
                 <nuxt-link :to="item.link">{{ item.name }}</nuxt-link>
             </li>
        </ul>
-       <div v-if="homePage" class="button px-5">
+       <div v-if="homePage" class="button px-5 mx-12 w-48">
             ¡Inscribete ya!
        </div>
     </div>

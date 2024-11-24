@@ -19,8 +19,8 @@
                 <div class="button w-2/5">Inscribirse</div>
             </div>
             <div class="membership">
-                <div class="membership-header">
-                    <h3 class="membership-title">Plan Energy Plus</h3>
+                <div class="header">
+                    <h3 class="title">Plan Energy Plus</h3>
                     <h4>Precio: ${{ plusPrice }}/mes</h4>
                 </div>
                 
@@ -35,8 +35,8 @@
         </div>
         <div class="bg-orange-400 flex justify-between py-5 px-20 rounded-b-3xl">
             <div>
-                <div class="membership-header m-3">
-                    <h3 class="membership-title">Personal Trainer Upgrade</h3>
+                <div class="header m-3">
+                    <h3 class="title">Personal Trainer Upgrade</h3>
                     <h4>Costo Adicional $60/mes</h4>  
                 </div>
                 <p class="mb-2 text-center">
