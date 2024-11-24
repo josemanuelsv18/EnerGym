@@ -38,27 +38,25 @@ namespace Semestral.Controllers
         // Registrar nuevos usuarios
         [HttpPost]
         [Route("guardar")]
-        public ApiResponse<object> GuardarUsuario(UsuarioRequest usuario)
+        public object GuardarUsuario(UsuarioRequest usuario)
         {
             if (!Valido(usuario.estado))
             {
-                return new ApiResponse<object>
+                return new
                 {
                     Titulo = "Error",
                     Mensaje = "El estado del usuario no es válido. Valores permitidos: Premium, General, Moroso, Retirado.",
-                    Code = 400,
-                    Data = null
+                    Code = 400
                 };
             }
 
             if (db.ExisteCedula(usuario.cedula))
             {
-                return new ApiResponse<object>
+                return new
                 {
                     Titulo = "Error",
                     Mensaje = "Esta cédula ya está registrada.",
-                    Code = 409,
-                    Data = null
+                    Code = 409
                 };
             }
 
@@ -165,48 +163,44 @@ namespace Semestral.Controllers
         // Actualizar estado del usuario
         [HttpPost]
         [Route("estado/{id}")]
-        public ApiResponse<object> ActualizarEstadoUsuario(int id, [FromBody] string nuevoEstado)
+        public object ActualizarEstadoUsuario(int id, [FromBody] string nuevoEstado)
         {
             if (!Valido(nuevoEstado))
             {
-                return new ApiResponse<object>
+                return new
                 {
                     Titulo = "Error",
                     Mensaje = "El nuevo estado a insertar no es válido. Valores permitidos: Premium, General, Moroso, Retirado.",
-                    Code = 400,
-                    Data = null
+                    Code = 400
                 };
             }
 
             if (!db.ExisteUsuario(id))
             {
-                return new ApiResponse<object>
+                return new
                 {
                     Titulo = "Error",
                     Mensaje = "Este usuario no esta en nuestra base de datos.",
-                    Code = 409,
-                    Data = null
+                    Code = 409
                 };
             }
 
             var actualizado = db.ActualizarEstado(id, nuevoEstado);
             if (actualizado > 0)
             {
-                return new ApiResponse<object>
+                return new
                 {
                     Titulo = "Exito al guardar",
                     Mensaje = "Los datos se han guardado correctamente",
-                    Code = 200,
-                    Data = null
+                    Code = 200
                 };
             }
 
-            return new ApiResponse<object>
+            return new
             {
                 Titulo = "Error al actualizar estado",
                 Mensaje = "Hubo un error con los datos, por favor revisar.",
-                Code = 400,
-                Data = null
+                Code = 400
             };
         }
 
@@ -377,164 +371,249 @@ namespace Semestral.Controllers
             };
         }
 
-        // Validar acceso de usuario
         [HttpPost]
         [Route("acceso/entrada")]
-        public ApiResponse<object> RegistrarEntrada([FromBody] string qrCodigo)
+        public object RegistrarEntrada([FromBody] string qrCodigo)
         {
+            // Buscar al usuario por su código QR
             var usuario = db.BuscarUsuarioPorQR(qrCodigo);
-            if (usuario != null)
+            if (usuario.Count == 0)
             {
-                return new ApiResponse<object>
+                return new
                 {
                     Titulo = "Error",
                     Mensaje = "Código QR inválido.",
-                    Code = 404,
-                    Data = null
+                    Code = 404
                 };
             }
 
-            if (usuario[0].estado != "General" || usuario[0].estado != "Premium")
+            // Validar que el usuario tiene un estado permitido
+            if (usuario[0].estado != "General" && usuario[0].estado != "Premium")
             {
-                return new ApiResponse<object>
+                return new
                 {
                     Titulo = "Acceso Denegado",
                     Mensaje = "El usuario no tiene acceso al gimnasio.",
-                    Code = 403,
-                    Data = null
+                    Code = 403
                 };
             }
 
+            // Validar si ya tiene una entrada activa sin salida
+            bool tieneEntradaActiva = db.ValidarEntradaActiva(usuario[0].id);
+            if (tieneEntradaActiva)
+            {
+                return new
+                {
+                    Titulo = "Error",
+                    Mensaje = "El usuario ya tiene una entrada activa. Registre su salida antes de intentar ingresar nuevamente.",
+                    Code = 400
+                };
+            }
+
+            // Validar la capacidad del gimnasio
             if (!CapacidadValida())
             {
-                return new ApiResponse<object>
+                return new
                 {
                     Titulo = "Capacidad Llena",
                     Mensaje = "El gimnasio ha alcanzado su capacidad máxima.",
-                    Code = 400,
-                    Data = null
+                    Code = 400
                 };
             }
 
+            // Registrar la entrada
             var entradaRegistrada = db.RegistrarEntrada(usuario[0].id, "Entrada", "Generado");
             if (entradaRegistrada)
             {
-                return new ApiResponse<object>
+                return new
                 {
                     Titulo = "Acceso Permitido",
                     Mensaje = "Entrada registrada exitosamente.",
-                    Code = 200,
-                    Data = null
+                    Code = 200
                 };
             }
 
-            return new ApiResponse<object>
+            // En caso de error al registrar la entrada
+            return new
             {
                 Titulo = "Error",
                 Mensaje = "Ocurrió un error al registrar la entrada.",
-                Code = 500,
-                Data = null
+                Code = 500
             };
         }
+
 
         // Registrar salida
         [HttpPost]
         [Route("acceso/salida")]
-        public ApiResponse<object> RegistrarSalida(int usuarioID)
+        public object RegistrarSalida([FromBody] int usuarioID)
         {
-            int salida = db.RegistrarSalida(usuarioID);
-
-            if (salida > 0)
+            int salidaValida = db.ValidarSalida(usuarioID);
+            if (salidaValida <= 0)
             {
-                return new ApiResponse<object>
+                return new
                 {
-                    Titulo = "Salida registrada",
-                    Mensaje = "El registro de salida se realizó correctamente.",
-                    Code = 200,
-                    Data = null
+                    Titulo = "Error al registrar salida",
+                    Mensaje = "No se encontró un registro de entrada válido en las últimas 5 horas. Verifique e intente nuevamente.",
+                    Code = 400
                 };
             }
 
-            return new ApiResponse<object>
+            var salidaRegistrada = db.RegistrarSalida(usuarioID, "Salida", "Generado");
+
+            if (salidaRegistrada)
             {
-                Titulo = "Error al registrar salida",
-                Mensaje = "No se encontró un registro de entrada válido en las últimas 5 horas. Verifique e intente nuevamente.",
-                Code = 400,
-                Data = null
+                return new
+                {
+                    Titulo = "Salida registrada",
+                    Mensaje = "El registro de salida se realizó correctamente.",
+                    Code = 200
+                };
+            }
+
+            return new
+            {
+                Titulo = "Error",
+                Mensaje = "Ocurrió un error al registrar la salida.",
+                Code = 500
             };
         }
         #endregion
 
         #region VistaWeb
         [HttpPost]
-        [Route("login")]
-        public ApiResponse<object> IniciarSesion(InicioSesionRequest request)
+        [Route("inscribir")]
+        public object InscribirUsuario(UsuarioRequest usuario)
         {
-            var usuario = db.ObtenerUsuarioPorCredenciales(request.cedula, request.contraseña);
+            if (!Valido(usuario.estado))
+            {
+                return new
+                {
+                    Titulo = "Error",
+                    Mensaje = "El estado del usuario no es válido. Valores permitidos: Premium, General, Moroso, Retirado.",
+                    Code = 400
+                };
+            }
 
-            if (usuario.Count == 0) {
+            if (db.ExisteCedula(usuario.cedula))
+            {
+                return new
+                {
+                    Titulo = "Error",
+                    Mensaje = "Esta cédula ya está registrada.",
+                    Code = 409
+                };
+            }
+
+            string contraseñaEncriptada = seguridad.Encriptar(usuario.contraseña);
+
+            var usuariO = new UsuarioRequest
+            {
+                nombre = usuario.nombre,
+                apellido = usuario.apellido,
+                contraseña = contraseñaEncriptada,
+                cedula = usuario.cedula,
+                edad = usuario.edad,
+                estado = usuario.estado
+            };
+
+            var guardado = db.InsertarUsuario(usuariO);
+            if (guardado > 0)
+            {
                 return new ApiResponse<object>
                 {
-                    Titulo = "Error de autenticación",
-                    Mensaje = "Cédula incorrecta.",
-                    Code = 401,
+                    Titulo = "Exito al guardar",
+                    Mensaje = "Los datos se han guardado correctamente",
+                    Code = 200,
                     Data = null
                 };
             }
-            var xD = 0;
-            var contraseñaDesencriptada = seguridad.Desencriptar(usuario[0].contraseña);
-            if (contraseñaDesencriptada == request.contraseña) {
-                return new ApiResponse<object>
-                {
-                    Titulo = "Inicio de sesión exitoso",
-                    Mensaje = "Bienvenido al sistema.",
-                    Code = 200,
-                    Data = new { UsuarioID = usuario[0].id, Nombre = usuario[0].nombre }
-                };
-            }
-
             return new ApiResponse<object>
             {
-                Titulo = "Error de autenticación",
-                Mensaje = "Contraseña incorrecta.",
-                Code = 401,
+                Titulo = "Error al guardar",
+                Mensaje = "Hubo un error con los datos, por favor revisar.",
+                Code = 400,
                 Data = null
             };
         }
 
         [HttpPost]
+        [Route("login")]
+        public object IniciarSesion(InicioSesionRequest request)
+        {
+            var usuario = db.ObtenerUsuarioPorCredenciales(request.cedula, request.contraseña);
+
+            if (usuario.Count == 0) {
+                return new
+                {
+                    Titulo = "Error de autenticación",
+                    Mensaje = "Cédula incorrecta.",
+                    Code = 401
+                };
+            }
+            var xD = 0;
+            var contraseñaDesencriptada = seguridad.Desencriptar(usuario[0].contraseña);
+            if (contraseñaDesencriptada == request.contraseña) {
+                return new
+                {
+                    Titulo = "Inicio de sesión exitoso",
+                    Mensaje = "Bienvenido al sistema.",
+                    Code = 200
+                };
+            }
+
+            return new
+            {
+                Titulo = "Error de autenticación",
+                Mensaje = "Contraseña incorrecta.",
+                Code = 401
+            };
+        }
+
+        [HttpPost]
         [Route("retirarse/{id}")]
-        public ApiResponse<object> DarseDeBaja(int id) {
+        public object DarseDeBaja(int id) {
             if (!db.ExisteUsuario(id))
             {
-                return new ApiResponse<object>
+                return new
                 {
                     Titulo = "Error",
                     Mensaje = "Este usuario no esta en nuestra base de datos.",
-                    Code = 409,
-                    Data = null
+                    Code = 409
                 };
             }
 
             var actualizado = db.ActualizarEstado(id, "Retirado");
             if (actualizado > 0)
             {
-                return new ApiResponse<object>
+                return new
                 {
                     Titulo = "Exito",
                     Mensaje = "Los datos se han guardado correctamente",
-                    Code = 200,
-                    Data = null
+                    Code = 200
                 };
             }
 
-            return new ApiResponse<object>
+            return new
             {
                 Titulo = "Error al actualizar estado",
                 Mensaje = "Hubo un error con los datos, por favor revisar.",
-                Code = 400,
-                Data = null
+                Code = 400
             };
+        }
+
+        [HttpGet]
+        [Route("QR/{cedula}")]
+        public string ObtenerQR(string cedula)
+        {
+            return db.QRUsuario(cedula);
+        }
+
+        [HttpGet]
+        [Route("QR-inv/{cedula}")]
+        public string ObtenerQRInv(string cedula)
+        {
+            return db.QRUsuarioInv(cedula);
         }
         #endregion
     }

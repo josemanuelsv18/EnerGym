@@ -3,6 +3,7 @@ using System;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using ZXing;
 
 namespace Semestral.Datos
 {
@@ -177,16 +178,21 @@ namespace Semestral.Datos
             finally { cmd.Connection.Close(); }
         }
 
-        public int RegistrarSalida(int usuarioID) {
-            try {
+        public bool RegistrarSalida(int id, string tipo, string estado)
+        {
+            try
+            {
                 cmd.Parameters.Clear();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT TOP 1 id, create_at FROM Accesos WHERE usuarioId = @usuarioID AND tipo = 'Entrada' AND estado = 'Generado' AND create_at >= DATEADD(HOUR, -5, GETDATE()) ORDER BY created_at DESC";
-                cmd.Parameters.Add(new SqlParameter("@usuarioID", usuarioID));
+                cmd.CommandText = "INSERT INTO Accesos (usuarioId, tipo, estado) VALUES (@usuarioID, @tipo, @estado);";
+
+                cmd.Parameters.Add(new SqlParameter("@usuarioID", id));
+                cmd.Parameters.Add(new SqlParameter("@tipo", tipo));
+                cmd.Parameters.Add(new SqlParameter("@estado", estado));
 
                 cmd.Connection.Open();
-                int reg = Convert.ToInt32(cmd.ExecuteScalar());
-                return reg;
+                int inserted = Convert.ToInt32(cmd.ExecuteNonQuery());
+                return inserted > 0;
             }
             catch (Exception ex)
             {
@@ -243,6 +249,7 @@ namespace Semestral.Datos
                             edad = Convert.ToInt32(row["edad"].ToString()),
                             estado = row["estado"].ToString(),
                             QRcodigo = row["QRcodigo"].ToString(),
+                            QRinvitado = row["QRinvitado"].ToString(),
                             fechaInscripcion = Convert.ToDateTime(row["fechaInscripcion"].ToString()),
                             updatedAt = Convert.ToDateTime(row["updated_at"])
                         };
@@ -481,7 +488,7 @@ namespace Semestral.Datos
             {
                 cmd.Parameters.Clear();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM Usuarios WHERE QRcodigo = @QRcodigo";
+                cmd.CommandText = "SELECT * FROM Usuarios WHERE QRcodigo = @QRcodigo;";
                 cmd.Parameters.Add(new SqlParameter("@QRcodigo", qrCodigo));
 
                 cmd.Connection.Open();
@@ -500,10 +507,11 @@ namespace Semestral.Datos
                             apellido = row["apellido"].ToString(),
                             contraseña = row["contraseña"].ToString(),
                             cedula = row["cedula"].ToString(),
-                            edad = Convert.ToInt32(row["estado"].ToString()),
+                            edad = Convert.ToInt32(row["edad"].ToString()),
                             estado = row["estado"].ToString(),
                             QRcodigo = row["QRcodigo"].ToString(),
-                            fechaInscripcion = Convert.ToDateTime(row["estado"]),
+                            QRinvitado = row["QRinvitado"].ToString(),
+                            fechaInscripcion = Convert.ToDateTime(row["fechaInscripcion"]),
                             updatedAt = Convert.ToDateTime(row["updated_at"])
                         };
                         usuarios.Add(usuario);
@@ -550,6 +558,7 @@ namespace Semestral.Datos
                             edad = Convert.ToInt32(row["edad"].ToString()),
                             estado = row["estado"].ToString(),
                             QRcodigo = row["QRcodigo"].ToString(),
+                            QRinvitado = row["QRinvitado"].ToString(),
                             fechaInscripcion = Convert.ToDateTime(row["fechaInscripcion"]),
                             updatedAt = Convert.ToDateTime(row["updated_at"])
                         };
@@ -566,6 +575,114 @@ namespace Semestral.Datos
                 cmd.Connection.Close();
             }
             return usuarios;
+        }
+
+        public int ValidarSalida(int usuarioID)
+        {
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT TOP 1 id, created_at FROM Accesos WHERE usuarioId = @usuarioID AND tipo = 'Entrada' AND estado = 'Generado' AND created_at >= DATEADD(HOUR, -5, GETDATE()) ORDER BY created_at DESC";
+                cmd.Parameters.Add(new SqlParameter("@usuarioID", usuarioID));
+
+                cmd.Connection.Open();
+                int reg = Convert.ToInt32(cmd.ExecuteScalar());
+                return reg;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            finally { cmd.Connection.Close(); }
+        }
+
+        public bool ValidarEntradaActiva(int usuarioID)
+        {
+            try 
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT COUNT(*) FROM Accesos WHERE usuarioID = @usuarioID AND tipo = 'Entrada' AND NOT EXISTS (SELECT 1 FROM Accesos WHERE usuarioID = @usuarioID AND tipo = 'Salida' AND created_at > (SELECT MAX(created_at) FROM Accesos WHERE usuarioID = @usuarioID AND tipo = 'Entrada'))";
+                cmd.Parameters.Add(new SqlParameter("@usuarioID", usuarioID));
+
+                cmd.Connection.Open();
+                int count = Convert.ToInt32(cmd.ExecuteScalar());
+                return count > 0;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+        }
+
+        public string QRUsuario(string cedula)
+        {
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT QRcodigo FROM Usuarios WHERE cedula = @cedula;";
+                cmd.Parameters.Add(new SqlParameter("@cedula", cedula));
+
+                cmd.Connection.Open();
+
+                var resul = cmd.ExecuteScalar();
+
+                if (resul != null)
+                {
+                    return resul.ToString();
+                }
+                else
+                {
+                    return "No se encontró el código QR para la cédula proporcionada.";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+        }
+
+        public string QRUsuarioInv(string cedula)
+        {
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT QRinvitado FROM Usuarios WHERE cedula = @cedula;";
+                cmd.Parameters.Add(new SqlParameter("@cedula", cedula));
+
+                cmd.Connection.Open();
+
+                var resul = cmd.ExecuteScalar();
+
+                if (resul != null)
+                {
+                    return resul.ToString();
+                }
+                else
+                {
+                    return "No se encontró el código QR para la cédula proporcionada.";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
         }
         #endregion
 

@@ -10,6 +10,7 @@
         public int edad {  get; set; }
         public string estado { get; set; }
         public string QRcodigo { get; set; }
+        public string QRinvitado { get; set; }
         public DateTime fechaInscripcion { get; set; }
         public DateTime updatedAt { get; set; }
     }
