@@ -270,8 +270,8 @@
         "IsRequired": true
       },
       {
-        "Name": "usuario",
-        "Type": "Semestral.Models.UsuarioRequest",
+        "Name": "editar",
+        "Type": "Semestral.Models.EditarRequest",
         "IsRequired": true
       }
     ],
@@ -423,6 +423,22 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "Semestral.Controllers.UsuariosController",
+    "Method": "CrearReserva",
+    "RelativePath": "api/Usuarios/reservas/crear",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "reserva",
+        "Type": "Semestral.Models.ReservaRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "Semestral.Controllers.UsuariosController",

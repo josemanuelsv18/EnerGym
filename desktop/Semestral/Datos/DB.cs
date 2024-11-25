@@ -834,18 +834,30 @@ namespace Semestral.Datos
         #endregion
 
         #region UPDATES
-        public int ActualizarUsuario(int id, UsuarioRequest usuario)
+        public int ActualizarUsuario(int id, EditarRequest editar)
         {
             try
             {
                 cmd.Parameters.Clear();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "UPDATE Usuarios SET nombre = @n, apellido = @a, cedula = @c, estado = @e, edad = @edad WHERE id = @id";
-                cmd.Parameters.Add(new SqlParameter("@n", usuario.nombre));
-                cmd.Parameters.Add(new SqlParameter("@a", usuario.apellido));
-                cmd.Parameters.Add(new SqlParameter("@c", usuario.cedula));
-                cmd.Parameters.Add(new SqlParameter("@e", usuario.estado));
-                cmd.Parameters.Add(new SqlParameter("@edad", usuario.edad));
+                cmd.CommandText = 
+                    "UPDATE Usuarios " +
+                    "SET " +
+                    "   nombre = @n, " +
+                    "   apellido = @a, " +
+                    "   cedula = @c, " +
+                    "   edad = @edad, " +
+                    "   QRcodigo = CONCAT(UPPER(LEFT(@n,1)), UPPER(LEFT(@a,1)), id), " +
+                    "   QRinvitado = " +
+                    "   CASE " +
+                    "       WHEN estado = 'Premium' THEN CONCAT('P', UPPER(LEFT(@n, 1)), UPPER(LEFT(@a, 1)), id) " +
+                    "       ELSE NULL " +
+                    "   END " +
+                    "WHERE id = @id";
+                cmd.Parameters.Add(new SqlParameter("@n", editar.nombre));
+                cmd.Parameters.Add(new SqlParameter("@a", editar.apellido));
+                cmd.Parameters.Add(new SqlParameter("@c", editar.cedula));
+                cmd.Parameters.Add(new SqlParameter("@edad", editar.edad));
                 cmd.Parameters.Add(new SqlParameter("@id", id));
 
                 cmd.Connection.Open();
@@ -868,7 +880,13 @@ namespace Semestral.Datos
             {
                 cmd.Parameters.Clear();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "UPDATE Usuarios SET estado = @estado WHERE id = @id";
+                cmd.CommandText = "UPDATE Usuarios SET estado = @estado, " +
+                    "QRinvitado = " +
+                    "CASE   " +
+                    "WHEN @estado = 'Premium' THEN CONCAT('P', UPPER(LEFT(nombre,1)), UPPER(LEFT(apellido,1)), id)  " +
+                    "ELSE NULL " +
+                    "END " +
+                    "WHERE id = @id;";
                 cmd.Parameters.Add(new SqlParameter("@estado", nuevoEstado));
                 cmd.Parameters.Add(new SqlParameter("@id", id));
 

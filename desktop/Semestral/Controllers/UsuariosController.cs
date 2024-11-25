@@ -95,19 +95,9 @@ namespace Semestral.Controllers
         // Editar datos de usuarios
         [HttpPost]
         [Route("editar/{id}")]
-        public object EditarUsuario(int id, UsuarioRequest usuario)
+        public object EditarUsuario(int id, EditarRequest editar)
         {
-            if (!Valido(usuario.estado))
-            {
-                return new
-                {
-                    Titulo = "Error",
-                    Mensaje = "El estado del usuario no es válido. Valores permitidos: Premium, General, Moroso, Retirado.",
-                    Code = 400
-                };
-            }
-
-            if (db.ExisteCedulaParaEditar(id, usuario.cedula))
+            if (db.ExisteCedulaParaEditar(id, editar.cedula))
             {
                 return new
                 {
@@ -117,19 +107,15 @@ namespace Semestral.Controllers
                 };
             }
 
-            string contraseñaEncriptada = seguridad.Encriptar(usuario.contraseña);
-
-            var usuariO = new UsuarioRequest
+            var editaR = new EditarRequest
             {
-                nombre = usuario.nombre,
-                apellido = usuario.apellido,
-                contraseña = contraseñaEncriptada,
-                cedula = usuario.cedula,
-                edad = usuario.edad,
-                estado = usuario.estado
+                nombre = editar.nombre,
+                apellido = editar.apellido,
+                cedula = editar.cedula,
+                edad = editar.edad
             };
 
-            var editado = db.ActualizarUsuario(id, usuario);
+            var editado = db.ActualizarUsuario(id, editaR);
             if (editado > 0)
             {
                 return new
