@@ -6,13 +6,19 @@
     .membership{
         @apply border border-t-[30px] border-orange-400 rounded-t-3xl p-5 w-1/3 h-96 flex flex-col items-center justify-between
     }
-    .membership-header{
+    .header{
         @apply font-bold flex flex-col items-center
     }
-    .membership-title{
+    .title{
         @apply text-xl
     }
     .button{
-        @apply bg-orange-400 rounded-full text-lg px-3 py-2 self-center shadow mx-4 hover:bg-yellow-400 hover:shadow-xl text-center transition duration-200
+        @apply bg-orange-400 rounded-full text-lg px-3 py-2 self-center shadow mx-4 hover:bg-orange-500 hover:shadow-xl text-center transition duration-200
+    }
+    .calendar-button{
+        @apply px-4 py-2 bg-orange-400 rounded hover:bg-orange-500 transition duration-200
+    }
+    .top-border{
+        @apply border-t-[30px] rounded-3xl border-orange-400
     }
 }
