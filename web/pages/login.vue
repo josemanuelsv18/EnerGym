@@ -1,15 +1,12 @@
 <template>
-    <HeaderApp :items="menuItems" :homePage="true"></HeaderApp>
-    <banner></banner>
-    <Horario></Horario>
-    <Membership></Membership>
+    <HeaderApp :items="menuItems":homePage="true"></HeaderApp>
 </template>
 <script setup>
 const menuItems = [
+    {name: 'Inicio', link: '/'},
     {name: 'Horario', link: '#'},
     {name: 'Membresias', link: '#'},
     {name: 'Entrenadores', link: '#'},
     {name: 'Clases', link: '#'},
-    {name: 'Tu espacio', link: 'logIn'}
 ]
 </script>

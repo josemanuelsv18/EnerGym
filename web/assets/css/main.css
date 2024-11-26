@@ -21,4 +21,13 @@
     .top-border{
         @apply border-t-[30px] rounded-3xl border-orange-400
     }
+    .label{
+        @apply block text-sm font-medium mb-2
+    }
+    .input{
+        @apply w-full px-4 py-2 border rounded
+    }
+    .small-logo{
+        @apply h-auto w-16
+    }
 }

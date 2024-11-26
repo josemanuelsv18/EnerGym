@@ -1,52 +1,37 @@
 <template>
-<div>
-    <div class="shadow-md rounded-lg p-6 w-full max-w-2xl border border-orange-400">
+    <div class="shadow-md rounded-lg p-6 w-full max-w-2xl border border-orange-400 mx-5">
       <!-- Encabezado -->
       <div class="flex justify-between items-center mb-4">
-        <button 
-          class="calendar-button"
-          @click="changeMonth(-1)"
-        >
-          &lt; Anterior
-        </button>
+        <button class="calendar-button" @click="changeMonth(-1)">&lt; Anterior</button>
         <h1 class="text-xl font-bold">{{ monthNames[currentMonth] }} {{ currentYear }}</h1>
-        <button 
-          class="calendar-button"
-          @click="changeMonth(1)"
-        >
-          Siguiente &gt;
-        </button>
+        <button class="calendar-button" @click="changeMonth(1)">Siguiente &gt;</button>
       </div>
 
       <!-- Días de la semana -->
       <div class="grid grid-cols-7 text-center text-sm font-medium text-gray-700">
-        <div v-for="day in weekDays" :key="day" class="py-2">
-          {{ day }}
-        </div>
+        <div v-for="day in weekDays" :key="day" class="py-2">{{ day }}</div>
       </div>
 
       <!-- Días del mes -->
       <div class="grid grid-cols-7 text-center text-sm text-gray-800">
         <!-- Días vacíos antes del inicio del mes -->
-        <div 
-          v-for="blank in firstDayOfMonth" 
-          :key="'blank-' + blank"
-          class="py-2"
-        ></div>
+        <div v-for="blank in firstDayOfMonth" :key="'blank-' + blank" class="py-2"></div>
         
         <!-- Días del mes -->
-        <div 
-        v-for="day in daysInMonth" 
-        :key="'day-' + day"
-        @click="selectDay(day)"
-        :class="{'py-2 rounded-full bg-orange-400 text-white w-10 mx-6': day === selectedDay, 'py-2': day !== selectedDay}"
+        <div
+          v-for="day in daysInMonth"
+          :key="'day-' + day"
+          @click="selectDay(day)"
+          :class="[
+            'py-2 cursor-pointer',
+            day === selectedDay ? 'py-2 rounded-full bg-orange-400 text-white w-10 mx-6' : 'py-2 rounded-full w-10 mx-6 hover:bg-gray-200'
+          ]"
         >
-            {{ day }}
+          {{ day }}
         </div>
-        </div>
-    
+      </div>
     </div>
-  </div>
+
 </template>
 
 <script setup>
@@ -59,15 +44,8 @@ const monthNames = [
 ]
 const weekDays = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
 
-// Día seleccionado
+// Props y variables locales
 const selectedDay = ref(null) // Día seleccionado inicialmente es `null`
-
-// Función para seleccionar un día
-const selectDay = (day) => {
-  selectedDay.value = day // Cambia el día seleccionado al día clickeado
-}
-
-// Estados reactivos
 const currentYear = ref(new Date().getFullYear())
 const currentMonth = ref(new Date().getMonth())
 
@@ -93,4 +71,12 @@ function changeMonth(direction) {
     currentYear.value += 1
   }
 }
+
+//metodo para seleccionar un dia y emitir el evento al padre
+const emit = defineEmits(['selectDate']);
+const selectDay = (day) => {
+  selectedDay.value = day;
+  const date = new Date(currentYear.value, currentMonth.value, day);
+  emit('selectDate', date);
+};
 </script>

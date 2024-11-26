@@ -6,9 +6,9 @@
                 <nuxt-link :to="item.link">{{ item.name }}</nuxt-link>
             </li>
        </ul>
-       <div v-if="homePage" class="button px-5 mx-12 w-48">
-            ¡Inscribete ya!
-       </div>
+       <nuxt-link to="register" class="button px-5 mx-12 w-48">
+            ¡Inscribete ya!    
+        </nuxt-link>
     </div>
 </template>
 <script setup lang="ts">
@@ -23,7 +23,7 @@ defineProps({
     homePage: {
         type: Boolean,
         required: false,
-        default: () => [false]
+        default: () => false
     }
 });
 //logo

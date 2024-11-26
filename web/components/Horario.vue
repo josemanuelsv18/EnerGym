@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-center">
-       <div class="w-4/5  flex justify-between m-5 shadow">
+       <div class="w-4/5  flex justify-between m-5 shadow top-border">
             <div class="flex flex-col items-center justify-around w-1/2 border-l border-b rounded-bl-3xl border-orange-400 py-12">
                 <h3 class="text-xl font-bold">Apertura de sucursal</h3>
                 <div class="flex flex-col justify-between h-3/4 items-center">
