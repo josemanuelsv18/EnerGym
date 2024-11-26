@@ -11,25 +11,32 @@ namespace Semestral.Controllers
     {
         private DB db = new DB();
 
-        // Obtener capacidad actual del gimnasio
+        #region VistaDesktop
+        // Obtener la ocupación actual del gimnasio
         [HttpGet]
         [Route("capacidad-actual")]
-        public int ObtenerCapacidadActual() {
-            return db.GimnasioCapacidadActual();
+        public int ObtenerOcupacionActual()
+        {
+            return db.GimnasioOcupacionActual();
         }
+        #endregion
 
+        #region VistaWeb
+        // Obtener la ocupación actual del gimnasio en porcentaje
         [HttpGet]
         [Route("capacidad%")]
-        public string ObtenerCapacidadPor()
+        public string ObtenerOcupacionPor()
         {
-            return db.GimnasioCapacidadPorcentual();
+            return db.GimnasioOcupacionPorcentual();
         }
 
+        // Obtener los horarios de apertura
         [HttpGet]
         [Route("horarios")]
         public List<Horarios> ObtenerHorarios()
         {
             return db.ObtenerHorarios();
         }
+        #endregion
     }
 }

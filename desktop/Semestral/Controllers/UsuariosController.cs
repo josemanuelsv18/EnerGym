@@ -2,13 +2,6 @@
 using Semestral.Models;
 
 using Microsoft.AspNetCore.Mvc;
-using System.Text;
-using Azure.Core;
-using ZXing;
-using System.Drawing;
-using System.IO;
-using Microsoft.AspNetCore.Identity.Data;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Semestral.Controllers
 {
@@ -32,13 +25,13 @@ namespace Semestral.Controllers
 
         private bool CapacidadValida()
         {
-            return db.GimnasioCapacidadActual() < 100;
+            return db.GimnasioOcupacionActual() < 100;
         }
 
         // Registrar nuevos usuarios
         [HttpPost]
         [Route("guardar")]
-        public object GuardarUsuario(UsuarioRequest usuario)
+        public object GuardarUsuario([FromBody] UsuarioRequest usuario)
         {
             if (!Valido(usuario.estado))
             {
@@ -75,27 +68,25 @@ namespace Semestral.Controllers
             var guardado = db.InsertarUsuario(usuariO);
             if (guardado > 0)
             {
-                return new ApiResponse<object>
+                return new
                 {
                     Titulo = "Exito al guardar",
                     Mensaje = "Los datos se han guardado correctamente",
-                    Code = 200,
-                    Data = null
+                    Code = 200
                 };
             }
-            return new ApiResponse<object>
+            return new
             {
                 Titulo = "Error al guardar",
                 Mensaje = "Hubo un error con los datos, por favor revisar.",
-                Code = 400,
-                Data = null
+                Code = 400
             };
         }
 
         // Editar datos de usuarios
         [HttpPost]
         [Route("editar/{id}")]
-        public object EditarUsuario(int id, EditarRequest editar)
+        public object EditarUsuario(int id, [FromBody] EditarRequest editar)
         {
             if (db.ExisteCedulaParaEditar(id, editar.cedula))
             {
@@ -189,42 +180,39 @@ namespace Semestral.Controllers
         // Eliminar usuario
         [HttpDelete]
         [Route("{id}")]
-        public ApiResponse<object> EliminarUsuario(int id)
+        public object EliminarUsuario(int id)
         {
             var eliminado = db.BorrarUsuario(id);
             if (eliminado > 0)
             {
-                return new ApiResponse<object>
+                return new
                 {
                     Titulo = "Éxito al eliminar",
                     Mensaje = "El usuario ha sido eliminado correctamente.",
-                    Code = 200,
-                    Data = null
+                    Code = 200
                 };
             }
 
-            return new ApiResponse<object>
+            return new
             {
                 Titulo = "Error al eliminar",
                 Mensaje = "Hubo un problema al eliminar el usuario.",
-                Code = 400,
-                Data = null
+                Code = 400
             };
         }
 
         // Registrar targeta
         [HttpPost]
         [Route("tarjeta/guardar")]
-        public ApiResponse<object> GuardarTarjeta([FromBody] TarjetaRequest request)
+        public object GuardarTarjeta([FromBody] TarjetaRequest request)
         {
             if (db.ExisteTarjeta(request.usuarioID, request.numeroTarjeta))
             {
-                return new ApiResponse<object>
+                return new
                 {
                     Titulo = "Error",
                     Mensaje = "Ya existe una tarjeta registrada para este usuario.",
-                    Code = 409,
-                    Data = null
+                    Code = 409
                 };
             }
 
@@ -242,57 +230,19 @@ namespace Semestral.Controllers
             var guardado = db.InsertarTarjeta(tarjeta);
             if (guardado > 0)
             {
-                return new ApiResponse<object>
+                return new
                 {
                     Titulo = "Éxito al guardar tarjeta",
                     Mensaje = "La tarjeta se ha guardado correctamente.",
-                    Code = 200,
-                    Data = null
+                    Code = 200
                 };
             }
 
-            return new ApiResponse<object>
+            return new
             {
                 Titulo = "Error al guardar tarjeta",
                 Mensaje = "Hubo un problema al guardar la tarjeta.",
-                Code = 400,
-                Data = null
-            };
-        }
-
-        // Registar deudas
-        [HttpPost]
-        [Route("deudas")]
-        public ApiResponse<object> RegistrarDeudas([FromBody] DeudasRequest request)
-        {
-            if (!db.ExisteUsuario(request.usuarioID))
-            {
-                return new ApiResponse<object>
-                {
-                    Titulo = "Error",
-                    Mensaje = "Este usuario no esta en nuestra base de datos.",
-                    Code = 409,
-                    Data = null
-                };
-            }
-
-            var registrado = db.InsertarDeudas(request);
-            if (registrado > 0)
-            {
-                return new ApiResponse<object>
-                {
-                    Titulo = "Exito al registrar",
-                    Mensaje = "La deuda se ha registrado correctamente",
-                    Code = 200,
-                    Data = null
-                };
-            }
-            return new ApiResponse<object>
-            {
-                Titulo = "Error al registrar",
-                Mensaje = "Hubo un error con los datos, por favor revisar.",
-                Code = 400,
-                Data = null
+                Code = 400
             };
         }
 
@@ -307,49 +257,45 @@ namespace Semestral.Controllers
         // Realizar/Registrar pagos
         [HttpPost]
         [Route("pagos")]
-        public ApiResponse<object> RealizarPago([FromBody] PagoRequest pago)
+        public object RealizarPago([FromBody] PagoRequest pago)
         {
             List<Deudas> deuda = db.ObtenerDeudaPorId(pago.usuarioID);
             if (deuda.Count() == 0)
             {
-                return new ApiResponse<object>
+                return new
                 {
                     Titulo = "Error",
                     Mensaje = "Esta deuda no existe en nuestra base de datos.",
-                    Code = 409,
-                    Data = null
+                    Code = 409
                 };
             }
 
             if (!ValidoMetodoPago(pago.metodoPago))
             {
-                return new ApiResponse<object>
+                return new
                 {
                     Titulo = "Error",
                     Mensaje = "Método de pago no válido. Valores permitidos: Tarjeta, Efectivo.",
-                    Code = 400,
-                    Data = null
+                    Code = 400
                 };
             }
 
             bool pagoExitoso = db.RegistrarPago(pago);
             if (pagoExitoso)
             {
-                return new ApiResponse<object>
+                return new
                 {
                     Titulo = "Exito al realizar pago",
                     Mensaje = "El pago se ha realizado correctamente",
-                    Code = 200,
-                    Data = null
+                    Code = 200
                 };
             }
 
-            return new ApiResponse<object>
+            return new
             {
                 Titulo = "Error al realizar pago",
                 Mensaje = "Hubo un error con los datos, por favor revisar.",
-                Code = 400,
-                Data = null
+                Code = 400
             };
         }
 
@@ -470,6 +416,7 @@ namespace Semestral.Controllers
         #endregion
 
         #region VistaWeb
+        // Proceso de inscripcion del usuario
         [HttpPost]
         [Route("inscribir")]
         public object InscribirUsuario(UsuarioRequest usuario)
@@ -509,23 +456,22 @@ namespace Semestral.Controllers
             var guardado = db.InsertarUsuario(usuariO);
             if (guardado > 0)
             {
-                return new ApiResponse<object>
+                return new
                 {
                     Titulo = "Exito al guardar",
                     Mensaje = "Los datos se han guardado correctamente",
-                    Code = 200,
-                    Data = null
+                    Code = 200
                 };
             }
-            return new ApiResponse<object>
+            return new
             {
                 Titulo = "Error al guardar",
                 Mensaje = "Hubo un error con los datos, por favor revisar.",
-                Code = 400,
-                Data = null
+                Code = 400
             };
         }
 
+        // Inicio de sesion del usuario
         [HttpPost]
         [Route("login")]
         public object IniciarSesion(InicioSesionRequest request)
@@ -540,7 +486,6 @@ namespace Semestral.Controllers
                     Code = 401
                 };
             }
-            var xD = 0;
             var contraseñaDesencriptada = seguridad.Desencriptar(usuario[0].contraseña);
             if (contraseñaDesencriptada == request.contraseña) {
                 return new
@@ -559,6 +504,52 @@ namespace Semestral.Controllers
             };
         }
 
+        // Edición propia de los datos del usuario
+        [HttpPost]
+        [Route("editar-datos{id}")]
+        public object EditarUsuarioWeb(int id, EditarWeb editar)
+        {
+            if (db.ExisteCedulaParaEditar(id, editar.cedula))
+            {
+                return new
+                {
+                    Titulo = "Error",
+                    Mensaje = "Esta cédula ya está registrada.",
+                    Code = 409
+                };
+            }
+
+            string contraseñaEncriptada = seguridad.Encriptar(editar.contraseña);
+            
+            var editaR = new EditarWeb
+            {
+                nombre = editar.nombre,
+                apellido = editar.apellido,
+                contraseña = contraseñaEncriptada,
+                cedula = editar.cedula,
+                edad = editar.edad
+            };
+
+            var editado = db.ActualizarUsuarioWeb(id, editaR);
+            if (editado > 0)
+            {
+                return new
+                {
+                    Titulo = "Exito al editar",
+                    Mensaje = "Los datos se han editado correctamente",
+                    Code = 200
+                };
+            }
+
+            return new
+            {
+                Titulo = "Error al guardar",
+                Mensaje = "Hubo un error con los datos, por favor revisar.",
+                Code = 400
+            };
+        }
+
+        // Darse de baja del gimnasio
         [HttpPost]
         [Route("retirarse/{id}")]
         public object DarseDeBaja(int id) {
@@ -591,6 +582,7 @@ namespace Semestral.Controllers
             };
         }
 
+        // Generar codigo de codigoQR del usuario
         [HttpGet]
         [Route("QR/{cedula}")]
         public string ObtenerQR(string cedula)
@@ -598,6 +590,7 @@ namespace Semestral.Controllers
             return db.QRUsuario(cedula);
         }
 
+        // Generar codigo de codigoQR del invitado (de ser necesario)
         [HttpGet]
         [Route("QR-inv/{cedula}")]
         public string ObtenerQRInv(string cedula)
@@ -605,6 +598,7 @@ namespace Semestral.Controllers
             return db.QRUsuarioInv(cedula);
         }
 
+        // Creacion de las reservas
         [HttpPost]
         [Route("reservas/crear")]
         public object CrearReserva(ReservaRequest reserva)
@@ -635,6 +629,41 @@ namespace Semestral.Controllers
                 Titulo = "Error al crear reserva",
                 Mensaje = "Hubo un problema al crear la reserva. Por favor intente de nuevo.",
                 Code = 500
+            };
+        }
+        #endregion
+
+        #region VistaAmbos
+        // Registar deudas
+        [HttpPost]
+        [Route("registrar-deudas")]
+        public object RegistrarDeudas([FromBody] DeudasRequest request)
+        {
+            if (!db.ExisteUsuario(request.usuarioID))
+            {
+                return new
+                {
+                    Titulo = "Error",
+                    Mensaje = "Este usuario no esta en nuestra base de datos.",
+                    Code = 404
+                };
+            }
+
+            var registrado = db.InsertarDeudas(request);
+            if (registrado > 0)
+            {
+                return new
+                {
+                    Titulo = "Exito al registrar",
+                    Mensaje = "La deuda se ha registrado correctamente",
+                    Code = 200
+                };
+            }
+            return new
+            {
+                Titulo = "Error al registrar",
+                Mensaje = "Hubo un error con los datos, por favor revisar.",
+                Code = 400
             };
         }
         #endregion

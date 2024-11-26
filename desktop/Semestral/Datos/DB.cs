@@ -446,7 +446,7 @@ namespace Semestral.Datos
             return deudas;
         }
 
-        public int GimnasioCapacidadActual()
+        public int GimnasioOcupacionActual()
         {
             int capacidad;
             try
@@ -470,7 +470,7 @@ namespace Semestral.Datos
             return capacidad;
         }
 
-        public string GimnasioCapacidadPorcentual()
+        public string GimnasioOcupacionPorcentual()
         {
             string capacidad;
             try
@@ -501,7 +501,20 @@ namespace Semestral.Datos
             {
                 cmd.Parameters.Clear();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM Clases WHERE estado = 0";
+                cmd.CommandText = 
+                    "SELECT " +
+                    "    c.nombre AS clase, " +
+                    "    e.nombre + ' ' + e.apellido AS entrenador, " +
+                    "    'Pendiente' AS estado, " +
+                    "    CONVERT(NVARCHAR(25), c.horarioInicio) AS fechaInicio, " +
+                    "    CONVERT(NVARCHAR(25), c.horarioFinal) AS fechaFinal FROM  " +
+                    "    Clases c " +
+                    "JOIN  " +
+                    "    Entrenadores e ON c.entrenador = e.id " +
+                    "WHERE " +
+                    "    c.estado = 0 " +
+                    "ORDER BY  " +
+                    "    c.horarioInicio;";
 
                 cmd.Connection.Open();
                 ds = new DataSet();
@@ -514,14 +527,11 @@ namespace Semestral.Datos
                     {
                         var clase = new Clase()
                         {
-                            id = Convert.ToInt32(row["id"].ToString()),
-                            nombre = row["nombre"].ToString(),
+                            clase = row["clase"].ToString(),
                             entrenador = row["entrenador"].ToString(),
-                            estado = Convert.ToInt32(row["estado"].ToString()),
-                            horarioInicio = Convert.ToDateTime(row["horarioInicio"]),
-                            horarioFinal = Convert.ToDateTime(row["horarioFinal"]),
-                            createddAt = Convert.ToDateTime(row["created_at"]),
-                            updatedAt = Convert.ToDateTime(row["updated_at"])
+                            estado = row["estado"].ToString(),
+                            fechaInicio = row["fechaInicio"].ToString(),
+                            fechaFinal = row["fechaFinal"].ToString()
                         };
                         clases.Add(clase);
                     }
@@ -831,6 +841,35 @@ namespace Semestral.Datos
                 cmd.Connection.Close();
             }
         }
+
+        public AdminLogin ObtenerLogin(string usuario) {
+            AdminLogin credenciales = new AdminLogin();
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "ObtenerUsuarioYContraseña";
+                cmd.Parameters.Add(new SqlParameter("@usuario", usuario));
+
+                cmd.Connection.Open();
+                var reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    credenciales.usuario = reader["usuario"].ToString();
+                    credenciales.contras = reader["contraseña"].ToString();
+                }
+                return credenciales;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+        }
         #endregion
 
         #region UPDATES
@@ -856,6 +895,48 @@ namespace Semestral.Datos
                     "WHERE id = @id";
                 cmd.Parameters.Add(new SqlParameter("@n", editar.nombre));
                 cmd.Parameters.Add(new SqlParameter("@a", editar.apellido));
+                cmd.Parameters.Add(new SqlParameter("@c", editar.cedula));
+                cmd.Parameters.Add(new SqlParameter("@edad", editar.edad));
+                cmd.Parameters.Add(new SqlParameter("@id", id));
+
+                cmd.Connection.Open();
+                int insertedId = Convert.ToInt32(cmd.ExecuteNonQuery());
+                if (insertedId > 0)
+                    return insertedId;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            finally { cmd.Connection.Close(); }
+            return 0;
+        }
+
+        public int ActualizarUsuarioWeb(int id, EditarWeb editar)
+        {
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = 
+                    "UPDATE Usuarios " +
+                    "SET " +
+                    "   nombre = @n, " +
+                    "   apellido = @a, " +
+                    "   contraseña = @con, " +
+                    "   cedula = @c, " +
+                    "   edad = @edad, " +
+                    "   QRcodigo = CONCAT(UPPER(LEFT(@n,1)), UPPER(LEFT(@a,1)), id), " +
+                    "   QRinvitado = " +
+                    "   CASE " +
+                    "       WHEN estado = 'Premium' THEN CONCAT('P', UPPER(LEFT(@n, 1)), UPPER(LEFT(@a, 1)), id) " +
+                    "       ELSE NULL " +
+                    "   END " +
+                    "WHERE id = @id";
+                cmd.Parameters.Add(new SqlParameter("@n", editar.nombre));
+                cmd.Parameters.Add(new SqlParameter("@a", editar.apellido));
+                cmd.Parameters.Add(new SqlParameter("@con", editar.contraseña));
                 cmd.Parameters.Add(new SqlParameter("@c", editar.cedula));
                 cmd.Parameters.Add(new SqlParameter("@edad", editar.edad));
                 cmd.Parameters.Add(new SqlParameter("@id", id));

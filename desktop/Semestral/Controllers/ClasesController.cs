@@ -11,31 +11,33 @@ namespace Semestral.Controllers
     {
         private DB db = new DB();
 
+        #region VistaDesktop
         //Registrar una clase
         [HttpPost]
         [Route("guardar")]
-        public ApiResponse<object> CrearClaseGrupal(ClaseRequest request) {
+        public object CrearClaseGrupal(ClaseRequest request)
+        {
             var guardado = db.GuardarClaseGrupal(request);
-            if(guardado > 0)
+            if (guardado > 0)
             {
-                return new ApiResponse<object>
+                return new
                 {
                     Titulo = "Exito al guardar",
                     Mensaje = "Los datos se han guardado correctamente",
-                    Code = 200,
-                    Data = null
+                    Code = 200
                 };
             }
-            
-            return new ApiResponse<object>
+
+            return new
             {
                 Titulo = "Error al guardar",
                 Mensaje = "Hubo un error con los datos, por favor revisar.",
-                Code = 400,
-                Data = null
+                Code = 400
             };
         }
+        #endregion
 
+        #region VistaWeb
         // Obtener todas las clases disponibles
         [HttpGet]
         [Route("disponibles")]
@@ -43,5 +45,6 @@ namespace Semestral.Controllers
         {
             return db.ObtenerClases();
         }
+        #endregion
     }
 }
