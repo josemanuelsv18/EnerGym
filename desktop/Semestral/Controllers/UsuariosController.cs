@@ -345,21 +345,19 @@ namespace Semestral.Controllers
                 };
             }
 
-            bool horarioValido = db.EsHoraValido();
-            if (!horarioValido)
-            {
-                return new
-                {
-                    Titulo = "Acceso Denegado",
-                    Mensaje = "El gimnasio está cerrado en este horario.",
-                    Code = 403
-                };
-            }
-
             var entradaRegistrada = db.RegistrarEntrada(usuario[0].id, "Entrada", "Generado");
             if (entradaRegistrada)
             {
-                db.ActualizarCapacidad(1);
+                var reserva = db.ObtenerReservaPorId(usuario[0].id);
+                if (reserva > 0)
+                {
+                    db.ActualizarCapacidad(0);
+                    db.ActualizarEstadoReserva(usuario[0].id);
+                }
+                else
+                {
+                    db.ActualizarCapacidad(1);
+                }
                 return new
                 {
                     Titulo = "Acceso Permitido",
@@ -601,7 +599,7 @@ namespace Semestral.Controllers
         // Creacion de las reservas
         [HttpPost]
         [Route("reservas/crear")]
-        public object CrearReserva(ReservaRequest reserva)
+        public object CrearReserva([FromBody] ReservaRequest reserva)
         {
             if (!CapacidadValida())
             {
@@ -613,9 +611,21 @@ namespace Semestral.Controllers
                 };
             }
 
+            var reservas = db.ValidarReservaPorId(reserva.usuarioId, reserva.fechaReserva);
+            if (reservas > 0)
+            {
+                return new
+                {
+                    Titulo = "Ya hay una reserva para esta fecha",
+                    Mensaje = "No hay disponibilidad para realizar la reserva en este momento.",
+                    Code = 400
+                };
+            }
+
             var reservaCreada = db.CrearReserva(reserva);
             if (reservaCreada)
             {
+                db.ActualizarCapacidad(1);
                 return new
                 {
                     Titulo = "Reserva confirmada",
