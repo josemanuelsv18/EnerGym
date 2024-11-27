@@ -1,31 +1,18 @@
 <template>
     <HeaderApp :items="menuItems" :homePage="false"></HeaderApp>
-    <h2>Conoce a nuestros entrenadores</h2>
-    <div class="flex justify-center">
-        <div v-if="error || !data" class="flex flex-wrap justify-between w-5/6">
-            <!--
-            <h3>Ha ocurrido un error</h3>
-            Temporal
-            -->
-            <PhotoCard :profilePic="logo" name="Pedro Perez"></PhotoCard>
-            <PhotoCard :profilePic="logo" name="Pedro Perez"></PhotoCard>
-            <PhotoCard :profilePic="logo" name="Pedro Perez"></PhotoCard>
-            <PhotoCard :profilePic="logo" name="Pedro Perez"></PhotoCard>
-            <PhotoCard :profilePic="logo" name="Pedro Perez"></PhotoCard>
-            <PhotoCard :profilePic="logo" name="Pedro Perez"></PhotoCard>
-            <PhotoCard :profilePic="logo" name="Pedro Perez"></PhotoCard>
-            <PhotoCard :profilePic="logo" name="Pedro Perez"></PhotoCard>
-            <PhotoCard :profilePic="logo" name="Pedro Perez"></PhotoCard>
+    <h2 class="header title my-5">Conoce a nuestros entrenadores</h2>
+    <div class="flex justify-center items-center">
+        <!-- Mensaje de error -->
+        <div v-if="error" class="flex flex-wrap justify-between w-5/6">
+            <h3>Ha ocurrido un error: {{ error.message }}</h3>
         </div>
-        <div v-else>
-            <div v-for="(trainer, index) in data" :key="index" class="flex flex-wrap justify-between w-5/6">
-                <img :src="trainer.foto" alt="Foto de perfil">
-                <p>{{ trainer.nombre }}</p>
-            </div>
+        <!-- Contenido -->
+        <div v-else class="flex flex-wrap justify-center">
             <PhotoCard 
-            v-for="(trainer, index) in data" :key="index"
-            :profilePic="trainer.foto"
-            :name="trainer.nombre"
+                v-for="(trainer, index) in trainers" 
+                :key="index"
+                :profilePic="trainer.foto"
+                :name="trainer.nombre"
             ></PhotoCard>
         </div>
     </div>
@@ -39,16 +26,19 @@ const menuItems = [
     {name: 'Clases', link: 'groupClassesLogged'},
     {name: 'Cerrar sesion', link:'./'}
 ]
-/*const api = 'https://localhost:7274/api'
-const { data, error } = await useFetch(`${api}/gimnasio/entrenadores`);*/
-//temp
-const data = false
-const logo = new URL('../assets/img/logo.png', import.meta.url).href
+const apiUrl = 'https://localhost:7274/api/gimnasio/entrenadores';
+const { data, error } = await useFetch(apiUrl, {
+    method: 'GET',
+});
 
-const imgList = []
-if(data){
-    for(trainer in data){
-        imgList.push(new URL(trainer.foto, import.meta.url).href)
+// Reactividad
+const trainers = data.value || []
+
+watchEffect(() => {
+    if (error.value) {
+        console.error('Error al cargar los datos:', error.value);
+    } else if (data.value) {
+        console.log('Datos cargados correctamente:', data.value);
     }
-}
+});
 </script>

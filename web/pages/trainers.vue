@@ -1,21 +1,13 @@
 <template>
     <HeaderApp :items="menuItems" :homePage="false"></HeaderApp>
-    <h2>Conoce a nuestros entrenadores</h2>
-    <div class="flex justify-center">
+    <h2 class="header title my-5">Conoce a nuestros entrenadores</h2>
+    <div class="flex justify-center items-center">
         <!-- Mensaje de error -->
         <div v-if="error" class="flex flex-wrap justify-between w-5/6">
             <h3>Ha ocurrido un error: {{ error.message }}</h3>
         </div>
         <!-- Contenido -->
-        <div v-else>
-            <div 
-                v-for="(trainer, index) in trainers" 
-                :key="index" 
-                class="flex flex-wrap justify-between w-5/6"
-            >
-                <img :src="trainer.foto" alt="Foto de perfil">
-                <p>{{ trainer.nombre }}</p>
-            </div>
+        <div v-else class="flex flex-wrap justify-center">
             <PhotoCard 
                 v-for="(trainer, index) in trainers" 
                 :key="index"
@@ -32,6 +24,7 @@ const menuItems = [
     { name: 'Inicio', link: '/' },
     { name: 'Clases', link: '/groupClasses' },
     { name: 'Tu espacio', link: '/login' },
+    {name: 'Disponibilidad', link: 'capacity'},
 ]
 
 const apiUrl = 'https://localhost:7274/api/gimnasio/entrenadores';

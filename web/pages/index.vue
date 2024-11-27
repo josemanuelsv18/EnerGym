@@ -6,10 +6,10 @@
 </template>
 <script setup>
 const menuItems = [
-    {name: 'Horario', link: '#'},
-    {name: 'Membresias', link: '#'},
     {name: 'Entrenadores', link: 'trainers'},
     {name: 'Clases', link: 'groupClasses'},
-    {name: 'Tu espacio', link: 'login'}
+    {name: 'Disponibilidad', link: 'capacity'},
+    {name: 'Acceso QR', link: 'qr'}
+    //{name: 'Tu espacio', link: 'login'}
 ]
 </script>

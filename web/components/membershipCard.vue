@@ -1,5 +1,5 @@
 <template>
-    <div class="membership">
+    <div class="membership flex flex-col justify-around">
         <div class="header">
             <h3 class="title">{{ plan }}</h3>
             <h4>Precio: ${{ precio }}/mes</h4>  
@@ -12,9 +12,11 @@
             {{ benefit }}
             </p> 
         </p>
+        <!--
         <nuxt-link :to="linked" class="button w-2/5" @click="pushButton">
             {{ accion }}
         </nuxt-link>
+        -->
         
     </div>
 </template>

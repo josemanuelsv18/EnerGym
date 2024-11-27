@@ -6,9 +6,9 @@
                 <nuxt-link :to="item.link">{{ item.name }}</nuxt-link>
             </li>
        </ul>
-       <nuxt-link to="newUser" class="button px-5 mx-12 w-48" v-if="homePage">
+       <!--<nuxt-link to="newUser" class="button px-5 mx-12 w-48" v-if="homePage">
             ¡Inscribete ya!    
-        </nuxt-link>
+        </nuxt-link>-->
     </div>
 </template>
 <script setup>
