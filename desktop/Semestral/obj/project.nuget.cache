@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "X8DHx3TE7MY=",
+  "dgSpecHash": "YfoWivQonzs=",
   "success": true,
-  "projectFilePath": "C:\\Users\\derli\\Documents\\C# Documents\\Semestral\\Semestral.csproj",
+  "projectFilePath": "C:\\Users\\derli\\Documents\\GitHub\\EnerGym\\desktop\\Semestral\\Semestral.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\derli\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\derli\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

@@ -2080,11 +2080,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\derli\\Documents\\C# Documents\\Semestral\\Semestral.csproj",
+      "projectUniqueName": "C:\\Users\\derli\\Documents\\GitHub\\EnerGym\\desktop\\Semestral\\Semestral.csproj",
       "projectName": "Semestral",
-      "projectPath": "C:\\Users\\derli\\Documents\\C# Documents\\Semestral\\Semestral.csproj",
+      "projectPath": "C:\\Users\\derli\\Documents\\GitHub\\EnerGym\\desktop\\Semestral\\Semestral.csproj",
       "packagesPath": "C:\\Users\\derli\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\derli\\Documents\\C# Documents\\Semestral\\obj\\",
+      "outputPath": "C:\\Users\\derli\\Documents\\GitHub\\EnerGym\\desktop\\Semestral\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\derli\\AppData\\Roaming\\NuGet\\NuGet.Config",

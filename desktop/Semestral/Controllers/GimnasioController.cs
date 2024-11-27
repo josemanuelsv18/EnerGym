@@ -29,6 +29,13 @@ namespace Semestral.Controllers
         {
             return db.GimnasioOcupacionPorcentual();
         }
+
+        [HttpGet]
+        [Route("entrenadores")]
+        public List<Entrenador> TraerEntrenadores()
+        {
+            return db.ObtenerEntrenadores();
+        }
         #endregion
     }
 }
