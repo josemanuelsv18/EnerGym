@@ -160,11 +160,10 @@ namespace Semestral.Datos
             try {
                 cmd.Parameters.Clear();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO Accesos (usuarioId, tipo, estado) VALUES (@usuarioID, @tipo, @estado);";
+                cmd.CommandText = "INSERT INTO Accesos (usuarioId, tipo) VALUES (@usuarioID, @tipo);";
 
                 cmd.Parameters.Add(new SqlParameter("@usuarioID", id));
                 cmd.Parameters.Add(new SqlParameter("@tipo", tipo));
-                cmd.Parameters.Add(new SqlParameter("@estado", estado));
 
                 cmd.Connection.Open();
                 int inserted = Convert.ToInt32(cmd.ExecuteNonQuery());
@@ -184,7 +183,7 @@ namespace Semestral.Datos
             {
                 cmd.Parameters.Clear();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO Accesos (usuarioId, tipo, estado) VALUES (@usuarioID, @tipo, @estado);";
+                cmd.CommandText = "INSERT INTO Accesos (usuarioId, tipo) VALUES (@usuarioID, @tipo);";
 
                 cmd.Parameters.Add(new SqlParameter("@usuarioID", id));
                 cmd.Parameters.Add(new SqlParameter("@tipo", tipo));
@@ -211,12 +210,9 @@ namespace Semestral.Datos
             {
                 cmd.Parameters.Clear();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText =
-                    "INSERT INTO Reservas(usuarioId, fechaReserva, horaReserva, estado) " +
-                    "VALUES (@usuarioId, @fechaReserva, @horaReserva, 'Pendiente')";
+                cmd.CommandText = "INSERT INTO Reservas(usuarioId, fechaReserva, estado) VALUES (@usuarioId, @fechaReserva, 'Activa')";
                 cmd.Parameters.Add(new SqlParameter("@usuarioId", reserva.usuarioId));
                 cmd.Parameters.Add(new SqlParameter("@fechaReserva", reserva.fechaReserva));
-                cmd.Parameters.Add(new SqlParameter("@horaReserva", reserva.horaReserva));
 
                 cmd.Connection.Open();
                 int filas = cmd.ExecuteNonQuery();
@@ -649,7 +645,7 @@ namespace Semestral.Datos
             {
                 cmd.Parameters.Clear();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT TOP 1 id, created_at FROM Accesos WHERE usuarioId = @usuarioID AND tipo = 'Entrada' AND estado = 'Generado' AND created_at >= DATEADD(HOUR, -5, GETDATE()) ORDER BY created_at DESC";
+                cmd.CommandText = "SELECT TOP 1 id, created_at FROM Accesos WHERE usuarioId = @usuarioID AND tipo = 'Entrada' AND created_at >= DATEADD(HOUR, -5, GETDATE()) ORDER BY created_at DESC";
                 cmd.Parameters.Add(new SqlParameter("@usuarioID", usuarioID));
 
                 cmd.Connection.Open();
@@ -751,97 +747,6 @@ namespace Semestral.Datos
             }
         }
 
-        public List<Horarios> ObtenerHorarios()
-        {
-            List<Horarios> horarios = new List<Horarios>();
-            try
-            {
-                cmd.Parameters.Clear();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = 
-                    "SELECT " +
-                    "    CASE dias " +
-                    "        WHEN 1 THEN 'Lunes'" +
-                    "        WHEN 2 THEN 'Martes'" +
-                    "        WHEN 3 THEN 'Miércoles'" +
-                    "        WHEN 4 THEN 'Jueves'" +
-                    "        WHEN 5 THEN 'Viernes'" +
-                    "        WHEN 6 THEN 'Sábado'" +
-                    "        WHEN 7 THEN 'Domingo'" +
-                    "        WHEN 8 THEN 'Feriados'" +
-                    "    END AS Dia," +
-                    "    CONVERT(NVARCHAR(5), horaInicio) AS horaInicio," +
-                    "    CONVERT(NVARCHAR(5), horaFinal) AS horaFinal" +
-                    " FROM Horarios" +
-                    " WHERE activo = 1;";
-
-                cmd.Connection.Open();
-                ds = new DataSet();
-                adapter = new SqlDataAdapter(cmd);
-                adapter.Fill(ds);
-
-                foreach (DataTable table in ds.Tables)
-                {
-                    foreach (DataRow row in table.Rows)
-                    {
-                        var horario = new Horarios()
-                        {
-                            dias = row["Dia"].ToString(),
-                            horaInicio = row["horaInicio"].ToString(),
-                            horaFinal = row["horaFinal"].ToString()
-                        };
-                        horarios.Add(horario);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
-            return horarios;
-        }
-
-        public bool EsHoraValido()
-        {
-            try
-            {
-                cmd.Parameters.Clear();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT 1 FROM Horarios WHERE activo = 1 AND dias = @dia AND @horaActual BETWEEN horaInicio AND horaFinal;";
-
-                int diaSemana = (int)DateTime.Now.DayOfWeek;
-                int diaAjustado;
-                if (diaSemana == 0)
-                {
-                    diaAjustado = 7;
-                }
-                else
-                {
-                    diaAjustado = diaSemana;
-                }
-
-                string horaActual = DateTime.Now.ToString("HH:mm");
-                cmd.Parameters.Add(new SqlParameter("@dia", diaAjustado));
-                cmd.Parameters.Add(new SqlParameter("@horaActual", horaActual));
-
-                cmd.Connection.Open(); 
-                var result = cmd.ExecuteScalar();
-                return result != null;
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
-        }
-
         public AdminLogin ObtenerLogin(string usuario) {
             AdminLogin credenciales = new AdminLogin();
             try
@@ -860,6 +765,51 @@ namespace Semestral.Datos
                     credenciales.contras = reader["contraseña"].ToString();
                 }
                 return credenciales;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+        }
+
+        public int ObtenerReservaPorId(int usuarioID)
+        {
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT 1 FROM Reservas WHERE usuarioId = 1 AND estado = 'Activa' AND fechaReserva = CAST(GETDATE() AS DATE)";
+                cmd.Parameters.Add(new SqlParameter("@usuarioId", usuarioID));
+
+                cmd.Connection.Open();
+                return Convert.ToInt32(cmd.ExecuteScalar());
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+        }
+
+        public int ValidarReservaPorId(int usuarioId, DateOnly fechaReserva)
+        {
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT 1 FROM Reservas WHERE usuarioId = @usuarioId AND fechaReserva = @fechaReserva";
+                cmd.Parameters.Add(new SqlParameter("@fechaReserva", fechaReserva));
+                cmd.Parameters.Add(new SqlParameter("@usuarioId", usuarioId));
+
+                cmd.Connection.Open();
+                return Convert.ToInt32(cmd.ExecuteScalar());
             }
             catch (Exception ex)
             {
@@ -996,6 +946,28 @@ namespace Semestral.Datos
 
                 cmd.Connection.Open();
                 int filas = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+        }
+
+        public void ActualizarEstadoReserva(int usuarioId)
+        {
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "UPDATE Reservas SET estado = 'Cumplida' WHERE usuarioId = @usuarioId AND fechaReserva <= GETDATE()";
+                cmd.Parameters.Add(new SqlParameter("@usuarioId", usuarioId));
+
+                cmd.Connection.Open();
+                cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {

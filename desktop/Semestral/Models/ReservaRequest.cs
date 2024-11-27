@@ -3,7 +3,6 @@
     public class ReservaRequest
     {
         public int usuarioId {  get; set; }
-        public DateTime fechaReserva {  get; set; }
-        public TimeSpan horaReserva { get; set; }
+        public DateOnly fechaReserva {  get; set; }
     }
 }

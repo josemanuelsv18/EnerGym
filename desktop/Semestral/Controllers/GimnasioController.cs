@@ -29,14 +29,6 @@ namespace Semestral.Controllers
         {
             return db.GimnasioOcupacionPorcentual();
         }
-
-        // Obtener los horarios de apertura
-        [HttpGet]
-        [Route("horarios")]
-        public List<Horarios> ObtenerHorarios()
-        {
-            return db.ObtenerHorarios();
-        }
         #endregion
     }
 }
