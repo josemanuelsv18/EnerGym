@@ -3,7 +3,6 @@
         <img :src="profilePic" alt="Foto de perfil" class="">
         <p class="py-2 text-center bg-orange-400 shadow rounded-b-3xl font-bold">
             {{ name }}
-            <p class="text-sm text-center font-normal">Entrenador Personal</p>
         </p>
     </div>
 </template>
