@@ -15,7 +15,7 @@ namespace Semestral.Datos
         DataSet ds;
 
         public DB() {
-            string cadenaConexion = "Data Source=localhost;Initial Catalog=EnerGym;Integrated Security=True;TrustServerCertificate=True;";
+            string cadenaConexion = "Data Source=bdenergym.cj2sks08yo4o.us-east-2.rds.amazonaws.com;Initial Catalog=EnerGym;User ID=admin;Password=skizpkzi2-A;TrustServerCertificate=True;";
             con = new SqlConnection();
             con.ConnectionString = cadenaConexion;
             cmd = new SqlCommand();
