@@ -3,19 +3,7 @@
     <h2>Conoce a nuestros entrenadores</h2>
     <div class="flex justify-center">
         <div v-if="error || !data" class="flex flex-wrap justify-between w-5/6">
-            <!--
             <h3>Ha ocurrido un error</h3>
-            Temporal
-            -->
-            <PhotoCard :profilePic="logo" name="Pedro Perez"></PhotoCard>
-            <PhotoCard :profilePic="logo" name="Pedro Perez"></PhotoCard>
-            <PhotoCard :profilePic="logo" name="Pedro Perez"></PhotoCard>
-            <PhotoCard :profilePic="logo" name="Pedro Perez"></PhotoCard>
-            <PhotoCard :profilePic="logo" name="Pedro Perez"></PhotoCard>
-            <PhotoCard :profilePic="logo" name="Pedro Perez"></PhotoCard>
-            <PhotoCard :profilePic="logo" name="Pedro Perez"></PhotoCard>
-            <PhotoCard :profilePic="logo" name="Pedro Perez"></PhotoCard>
-            <PhotoCard :profilePic="logo" name="Pedro Perez"></PhotoCard>
         </div>
         <div v-else>
             <div v-for="(trainer, index) in data" :key="index" class="flex flex-wrap justify-between w-5/6">
