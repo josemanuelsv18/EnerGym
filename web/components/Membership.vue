@@ -7,11 +7,13 @@
             plan="Plan Energy Start" 
             :precio="startPrice" 
             :beneficios="benefitsStart"
+            linked="NewUser"
             ></MembershipCard>
             <MembershipCard
             plan="Plan Energy Plus"
             :precio="plusPrice"
             :beneficios="benefitsPlus"
+            linked="NewUser"
             ></MembershipCard>
         </div>
         <TrainerUpgrade

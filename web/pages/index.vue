@@ -8,8 +8,8 @@
 const menuItems = [
     {name: 'Horario', link: '#'},
     {name: 'Membresias', link: '#'},
-    {name: 'Entrenadores', link: '#'},
-    {name: 'Clases', link: '#'},
-    {name: 'Tu espacio', link: 'logIn'}
+    {name: 'Entrenadores', link: 'trainers'},
+    {name: 'Clases', link: 'groupClasses'},
+    {name: 'Tu espacio', link: 'login'}
 ]
 </script>

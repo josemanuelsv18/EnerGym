@@ -13,7 +13,7 @@
         @apply text-xl
     }
     .button{
-        @apply bg-orange-400 rounded-full text-lg px-3 py-2 self-center shadow mx-4 hover:bg-orange-500 hover:shadow-xl text-center transition duration-200
+        @apply bg-orange-400 text-white rounded-full text-lg px-3 py-2 self-center shadow mx-4 hover:bg-orange-500 text-center transition duration-200
     }
     .calendar-button{
         @apply px-4 py-2 bg-orange-400 rounded hover:bg-orange-500 transition duration-200

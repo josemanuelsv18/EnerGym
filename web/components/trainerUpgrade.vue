@@ -11,7 +11,7 @@
                 Monitoreo de progreso constante
             </p>
         </div>
-        <div @click="changePrice" class="button bg-white hover:bg-black hover:text-white hover:cursor-pointer w-28 my-5">
+        <div @click="changePrice" class="button bg-white text-black hover:bg-black hover:text-white hover:cursor-pointer w-28 my-5">
             {{ button }}
         </div>
     </div>

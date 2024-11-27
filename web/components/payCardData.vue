@@ -1,6 +1,6 @@
 <template>
     <h2 class="text-2xl font-bold mb-4">Datos de Pago</h2>
-    <form @submit.prevent="processPayment">
+    <form @submit.prevent="processPayment" class="flex flex-col">
         <!--Seleccionar tarjeta-->
         <div class="mb-4">
             <p class="label">Seleccione el tipo de tarjeta:</p>
@@ -23,7 +23,7 @@
             type="text" 
             id="cardholder" 
             v-model="cardholder" 
-            placeholder="Ej. Juan Pérez"
+            placeholder="Nombre"
             class="input"
             required
             />
@@ -94,8 +94,9 @@
             type="submit" 
             class="w-full bg-orange-400 text-white py-2 px-4 rounded shadow hover:bg-orange-500"
         >
-            Realizar Pago
+            Registrar tarjeta
         </button>
+        <nuxt-link to="loggedUserHome" class="w-1/2 bg-orange-400 text-white py-2 px-4 rounded shadow hover:bg-orange-500 self-center text-center mt-4">Continuar →</nuxt-link>
     </form>
 </template>
 

@@ -6,24 +6,24 @@
                 <nuxt-link :to="item.link">{{ item.name }}</nuxt-link>
             </li>
        </ul>
-       <nuxt-link to="register" class="button px-5 mx-12 w-48">
+       <nuxt-link to="newUser" class="button px-5 mx-12 w-48" v-if="homePage">
             ¡Inscribete ya!    
         </nuxt-link>
     </div>
 </template>
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue';
 //props
 defineProps({
     items: {
         type: Array,
-        required: true,
+        required: false,
         default: () => []
     },
     homePage: {
         type: Boolean,
         required: false,
-        default: () => false
+        default: false
     }
 });
 //logo

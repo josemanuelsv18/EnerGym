@@ -12,11 +12,17 @@
             {{ benefit }}
             </p> 
         </p>
-        <div class="button w-2/5">{{ accion }}</div>
+        <nuxt-link :to="linked" class="button w-2/5" @click="pushButton">
+            {{ accion }}
+        </nuxt-link>
+        
     </div>
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
+//componentes reactivos
+const isSelectedStart = ref(false);
+const isSelectedPlus = ref(false);
 //props
 defineProps({
     plan: {
@@ -38,6 +44,22 @@ defineProps({
         type: String,
         required: true,
         default: 'Inscribirse'
+    },
+    linked:{
+        type: String,
+        required: true,
+        default: '#'
     }
 });
+//Emits
+const emit = defineEmits([
+    "selectMembership",
+]);
+//Metodo para emitir y actualizar evento
+const pushButton = () => {
+    emit("selectMembership", {
+        selectedStart: isSelectedStart.value,
+        selectedPlus: isSelectedPlus.value
+    });
+}
 </script>
