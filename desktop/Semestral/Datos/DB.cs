@@ -820,6 +820,45 @@ namespace Semestral.Datos
                 cmd.Connection.Close();
             }
         }
+
+        public List<Entrenador> ObtenerEntrenadores()
+        {
+            List<Entrenador> entrenadores = new List<Entrenador>();
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT nombre + ' ' + apellido AS nombre, foto FROM Entrenadores";
+
+                cmd.Connection.Open();
+                ds = new DataSet();
+                adapter = new SqlDataAdapter(cmd);
+                adapter.Fill(ds);
+
+                foreach (DataTable table in ds.Tables)
+                {
+                    foreach (DataRow row in table.Rows)
+                    {
+                        var entrenador = new Entrenador()
+                        {
+                            nombre = row["nombre"].ToString(),
+                            foto = row["foto"].ToString()
+                        };
+                        entrenadores.Add(entrenador);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+            return entrenadores;
+        }
         #endregion
 
         #region UPDATES
