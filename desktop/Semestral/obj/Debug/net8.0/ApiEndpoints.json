@@ -102,6 +102,26 @@
     ]
   },
   {
+    "ContainingType": "Semestral.Controllers.GimnasioController",
+    "Method": "TraerEntrenadores",
+    "RelativePath": "api/Gimnasio/entrenadores",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[Semestral.Models.Entrenador, Semestral, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "Semestral.Controllers.UsuariosController",
     "Method": "EliminarUsuario",
     "RelativePath": "api/Usuarios/{id}",
