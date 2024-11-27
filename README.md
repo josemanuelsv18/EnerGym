@@ -1,4 +1,9 @@
 # EnerGym
+- Josemanuel Sifontes
+- Derlin Romero
+- Austin Bernal
+- Karen Sanchez
+
 ### Requisitos del Sistema para un Gimnasio
 
 Se requiere un sistema compuesto por **dos interfaces**:  
