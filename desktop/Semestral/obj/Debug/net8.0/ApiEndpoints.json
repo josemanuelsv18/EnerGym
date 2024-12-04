@@ -300,26 +300,26 @@
   },
   {
     "ContainingType": "Semestral.Controllers.UsuariosController",
-    "Method": "ObtenerDeudasPorUsuario",
-    "RelativePath": "api/Usuarios/deudas/{id}",
+    "Method": "BuscarReservas",
+    "RelativePath": "api/Usuarios/buscar/reservas",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "usuarioId",
-        "Type": "System.Int32",
+        "Name": "nombre",
+        "Type": "System.String",
         "IsRequired": false
       },
       {
-        "Name": "id",
-        "Type": "",
-        "IsRequired": true
+        "Name": "estado",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[Semestral.Models.Deudas, Semestral, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[Semestral.Models.Reserva, Semestral, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -442,22 +442,6 @@
   },
   {
     "ContainingType": "Semestral.Controllers.UsuariosController",
-    "Method": "RealizarPago",
-    "RelativePath": "api/Usuarios/pagos",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "pago",
-        "Type": "Semestral.Models.PagoRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Semestral.Controllers.UsuariosController",
     "Method": "ObtenerQRInv",
     "RelativePath": "api/Usuarios/QR-inv/{cedula}",
     "HttpMethod": "GET",
@@ -510,22 +494,6 @@
   },
   {
     "ContainingType": "Semestral.Controllers.UsuariosController",
-    "Method": "RegistrarDeudas",
-    "RelativePath": "api/Usuarios/registrar-deudas",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "Semestral.Models.DeudasRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Semestral.Controllers.UsuariosController",
     "Method": "CrearReserva",
     "RelativePath": "api/Usuarios/reservas/crear",
     "HttpMethod": "POST",
@@ -556,22 +524,6 @@
       {
         "Name": "estado",
         "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Semestral.Controllers.UsuariosController",
-    "Method": "GuardarTarjeta",
-    "RelativePath": "api/Usuarios/tarjeta/guardar",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "Semestral.Models.TarjetaRequest",
         "IsRequired": true
       }
     ],

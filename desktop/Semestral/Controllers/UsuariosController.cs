@@ -13,16 +13,13 @@ namespace Semestral.Controllers
         private Seguridad seguridad = new Seguridad();
 
         #region VistaDesktop
+        // Validar si el estado esta dentro de los permitidos
         private bool Valido(string estado)
         {
-            return estado == "Premium" || estado == "General" || estado == "Moroso" || estado == "Retirado";
+            return estado == "Premium" || estado == "General" || estado == "Retirado";
         }
 
-        private bool ValidoMetodoPago(string metodoPago)
-        {
-            return metodoPago == "Tarjeta" || metodoPago == "Efectivo";
-        }
-
+        // Validar si la capacidad del gimnasio permite mas entradas
         private bool CapacidadValida()
         {
             return db.GimnasioOcupacionActual() < 100;
@@ -133,6 +130,13 @@ namespace Semestral.Controllers
             return db.BuscarUsuario(nombre, apellido, cedula);
         }
 
+        [HttpGet]
+        [Route("buscar/reservas")]
+        public List<Reserva> BuscarReservas(string nombre = null, string estado = null)
+        {
+            return db.BuscarReservas(nombre, estado);
+        }
+
         // Actualizar estado del usuario
         [HttpPost]
         [Route("estado/{id}")]
@@ -197,104 +201,6 @@ namespace Semestral.Controllers
             {
                 Titulo = "Error al eliminar",
                 Mensaje = "Hubo un problema al eliminar el usuario.",
-                Code = 400
-            };
-        }
-
-        // Registrar targeta
-        [HttpPost]
-        [Route("tarjeta/guardar")]
-        public object GuardarTarjeta([FromBody] TarjetaRequest request)
-        {
-            if (db.ExisteTarjeta(request.usuarioID, request.numeroTarjeta))
-            {
-                return new
-                {
-                    Titulo = "Error",
-                    Mensaje = "Ya existe una tarjeta registrada para este usuario.",
-                    Code = 409
-                };
-            }
-
-            string numeroTarjetaEcriptada = seguridad.Encriptar(request.numeroTarjeta);
-
-            var tarjeta = new TarjetaRequest
-            {
-                usuarioID = request.usuarioID,
-                numeroTarjeta = numeroTarjetaEcriptada,
-                nombreTitular = request.nombreTitular,
-                FechaExpiracionMes = request.FechaExpiracionMes,
-                FechaExpiracionYear = request.FechaExpiracionYear
-            };
-
-            var guardado = db.InsertarTarjeta(tarjeta);
-            if (guardado > 0)
-            {
-                return new
-                {
-                    Titulo = "Éxito al guardar tarjeta",
-                    Mensaje = "La tarjeta se ha guardado correctamente.",
-                    Code = 200
-                };
-            }
-
-            return new
-            {
-                Titulo = "Error al guardar tarjeta",
-                Mensaje = "Hubo un problema al guardar la tarjeta.",
-                Code = 400
-            };
-        }
-
-        // Buscar deudas por usuario
-        [HttpGet]
-        [Route("deudas/{id}")]
-        public List<Deudas> ObtenerDeudasPorUsuario(int usuarioId)
-        {
-            return db.ObtenerDeudaPorId(usuarioId);
-        }
-
-        // Realizar/Registrar pagos
-        [HttpPost]
-        [Route("pagos")]
-        public object RealizarPago([FromBody] PagoRequest pago)
-        {
-            List<Deudas> deuda = db.ObtenerDeudaPorId(pago.usuarioID);
-            if (deuda.Count() == 0)
-            {
-                return new
-                {
-                    Titulo = "Error",
-                    Mensaje = "Esta deuda no existe en nuestra base de datos.",
-                    Code = 409
-                };
-            }
-
-            if (!ValidoMetodoPago(pago.metodoPago))
-            {
-                return new
-                {
-                    Titulo = "Error",
-                    Mensaje = "Método de pago no válido. Valores permitidos: Tarjeta, Efectivo.",
-                    Code = 400
-                };
-            }
-
-            bool pagoExitoso = db.RegistrarPago(pago);
-            if (pagoExitoso)
-            {
-                return new
-                {
-                    Titulo = "Exito al realizar pago",
-                    Mensaje = "El pago se ha realizado correctamente",
-                    Code = 200
-                };
-            }
-
-            return new
-            {
-                Titulo = "Error al realizar pago",
-                Mensaje = "Hubo un error con los datos, por favor revisar.",
                 Code = 400
             };
         }
@@ -597,38 +503,6 @@ namespace Semestral.Controllers
         #endregion
 
         #region VistaAmbos
-        // Registar deudas
-        [HttpPost]
-        [Route("registrar-deudas")]
-        public object RegistrarDeudas([FromBody] DeudasRequest request)
-        {
-            if (!db.ExisteUsuario(request.usuarioID))
-            {
-                return new
-                {
-                    Titulo = "Error",
-                    Mensaje = "Este usuario no esta en nuestra base de datos.",
-                    Code = 404
-                };
-            }
-
-            var registrado = db.InsertarDeudas(request);
-            if (registrado > 0)
-            {
-                return new
-                {
-                    Titulo = "Exito al registrar",
-                    Mensaje = "La deuda se ha registrado correctamente",
-                    Code = 200
-                };
-            }
-            return new
-            {
-                Titulo = "Error al registrar",
-                Mensaje = "Hubo un error con los datos, por favor revisar.",
-                Code = 400
-            };
-        }
 
         // Darse de baja del gimnasio
         [HttpPost]

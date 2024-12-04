@@ -1,0 +1,70 @@
+﻿namespace EnerGymADMIN
+{
+    partial class AccesoSalida
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.pcbCamara = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pcbCamara)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // pcbCamara
+            // 
+            this.pcbCamara.Location = new System.Drawing.Point(153, 19);
+            this.pcbCamara.Name = "pcbCamara";
+            this.pcbCamara.Size = new System.Drawing.Size(495, 413);
+            this.pcbCamara.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pcbCamara.TabIndex = 1;
+            this.pcbCamara.TabStop = false;
+            // 
+            // AccesoSalida
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.pcbCamara);
+            this.Name = "AccesoSalida";
+            this.Text = "AccesoSalida";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AccesoSalida_FormClosing);
+            this.Load += new System.EventHandler(this.AccesoSalida_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pcbCamara)).EndInit();
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.PictureBox pcbCamara;
+    }
+}

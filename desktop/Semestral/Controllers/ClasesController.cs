@@ -12,6 +12,7 @@ namespace Semestral.Controllers
         private DB db = new DB();
 
         #region VistaDesktop
+        // Buscar clases
         [HttpGet]
         [Route("buscar")]
         public List<Clase> BuscarClases(string estado = null, string entrenador = null)
@@ -19,6 +20,7 @@ namespace Semestral.Controllers
             return db.BuscarClases(estado, entrenador);
         }
 
+        // Obtener nombre de entrenadores
         [HttpGet]
         [Route("entrenadores")]
         public List<EntrenadorNombre> ObtenerNombreEntrenadores()

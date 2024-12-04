@@ -30,6 +30,7 @@ namespace Semestral.Controllers
             return db.GimnasioOcupacionPorcentual();
         }
 
+        // Obtener entrenadores con su foto
         [HttpGet]
         [Route("entrenadores")]
         public List<Entrenador> TraerEntrenadores()
