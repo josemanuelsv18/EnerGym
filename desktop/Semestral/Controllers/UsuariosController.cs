@@ -324,15 +324,31 @@ namespace Semestral.Controllers
                 };
             }
 
-            bool tieneEntradaActiva = db.ValidarEntradaActiva(usuario[0].id);
-            if (tieneEntradaActiva)
+            if (qrCodigo.Length == 4 && qrCodigo[0] == 'P')
             {
-                return new
+                bool invitadoEntradaActiva = db.ValidarInvitadoEntradaAvtiva(usuario[0].id, "Invitado");
+                if (invitadoEntradaActiva)
                 {
-                    Titulo = "Error",
-                    Mensaje = "El usuario ya tiene una entrada activa. Registre su salida antes de intentar ingresar nuevamente.",
-                    Code = 400
-                };
+                    return new
+                    {
+                        Titulo = "Error",
+                        Mensaje = "El invitado ya tiene una entrada activa. Registre su salida antes de intentar ingresar nuevamente.",
+                        Code = 400
+                    };
+                }
+            }
+            else
+            {
+                bool tieneEntradaActiva = db.ValidarEntradaActiva(usuario[0].id);
+                if (tieneEntradaActiva)
+                {
+                    return new
+                    {
+                        Titulo = "Error",
+                        Mensaje = "El usuario ya tiene una entrada activa. Registre su salida antes de intentar ingresar nuevamente.",
+                        Code = 400
+                    };
+                }
             }
 
             if (!CapacidadValida())
@@ -345,7 +361,7 @@ namespace Semestral.Controllers
                 };
             }
 
-            var entradaRegistrada = db.RegistrarEntrada(usuario[0].id, "Entrada", "Generado");
+            var entradaRegistrada = db.RegistrarEntrada(usuario[0].id, "Entrada", qrCodigo);
             if (entradaRegistrada)
             {
                 var reserva = db.ObtenerReservaPorId(usuario[0].id);
@@ -377,21 +393,37 @@ namespace Semestral.Controllers
 
         // Registrar salida
         [HttpPost]
-        [Route("acceso/salida")]
-        public object RegistrarSalida([FromBody] int usuarioID)
+        [Route("acceso/salida/{qrCodigo}")]
+        public object RegistrarSalida([FromBody] int usuarioID, string qrCodigo)
         {
-            int salidaValida = db.ValidarSalida(usuarioID);
-            if (salidaValida <= 0)
+            if (qrCodigo.Length == 4 && qrCodigo[0] == 'P')
             {
-                return new
+                int salidaInvValida = db.ValidarInvitadoSalida(usuarioID);
+                if (salidaInvValida > 0)
                 {
-                    Titulo = "Error al registrar salida",
-                    Mensaje = "No se encontró un registro de entrada válido en las últimas 5 horas. Verifique e intente nuevamente.",
-                    Code = 400
-                };
+                    return new
+                    {
+                        Titulo = "Error al registrar salida",
+                        Mensaje = "No se encontró un registro de entrada válido desde la última salida registrada para este invitado. Verifique e intente nuevamente.",
+                        Code = 400
+                    };
+                }
+            }
+            else
+            {
+                int salidaValida = db.ValidarSalida(usuarioID);
+                if (salidaValida > 0)
+                {
+                    return new
+                    {
+                        Titulo = "Error al registrar salida",
+                        Mensaje = "No se encontró un registro de entrada válido desde la última salida registrada para este usuario. Verifique e intente nuevamente.",
+                        Code = 400
+                    };
+                }
             }
 
-            var salidaRegistrada = db.RegistrarSalida(usuarioID, "Salida", "Generado");
+            var salidaRegistrada = db.RegistrarSalida(usuarioID, "Salida", qrCodigo);
 
             if (salidaRegistrada)
             {
@@ -547,39 +579,6 @@ namespace Semestral.Controllers
             };
         }
 
-        // Darse de baja del gimnasio
-        [HttpPost]
-        [Route("retirarse/{id}")]
-        public object DarseDeBaja(int id) {
-            if (!db.ExisteUsuario(id))
-            {
-                return new
-                {
-                    Titulo = "Error",
-                    Mensaje = "Este usuario no esta en nuestra base de datos.",
-                    Code = 409
-                };
-            }
-
-            var actualizado = db.ActualizarEstado(id, "Retirado");
-            if (actualizado > 0)
-            {
-                return new
-                {
-                    Titulo = "Exito",
-                    Mensaje = "Los datos se han guardado correctamente",
-                    Code = 200
-                };
-            }
-
-            return new
-            {
-                Titulo = "Error al actualizar estado",
-                Mensaje = "Hubo un error con los datos, por favor revisar.",
-                Code = 400
-            };
-        }
-
         // Generar codigo de codigoQR del usuario
         [HttpGet]
         [Route("QR/{cedula}")]
@@ -594,52 +593,6 @@ namespace Semestral.Controllers
         public string ObtenerQRInv(string cedula)
         {
             return db.QRUsuarioInv(cedula);
-        }
-
-        // Creacion de las reservas
-        [HttpPost]
-        [Route("reservas/crear")]
-        public object CrearReserva([FromBody] ReservaRequest reserva)
-        {
-            if (!CapacidadValida())
-            {
-                return new
-                {
-                    Titulo = "Capacidad llena",
-                    Mensaje = "No hay disponibilidad para realizar la reserva en este momento.",
-                    Code = 400
-                };
-            }
-
-            var reservas = db.ValidarReservaPorId(reserva.usuarioId, reserva.fechaReserva);
-            if (reservas > 0)
-            {
-                return new
-                {
-                    Titulo = "Ya hay una reserva para esta fecha",
-                    Mensaje = "No hay disponibilidad para realizar la reserva en este momento.",
-                    Code = 400
-                };
-            }
-
-            var reservaCreada = db.CrearReserva(reserva);
-            if (reservaCreada)
-            {
-                db.ActualizarCapacidad(1);
-                return new
-                {
-                    Titulo = "Reserva confirmada",
-                    Mensaje = "La reserva se ha realizado correctamente.",
-                    Code = 200
-                };
-            }
-
-            return new
-            {
-                Titulo = "Error al crear reserva",
-                Mensaje = "Hubo un problema al crear la reserva. Por favor intente de nuevo.",
-                Code = 500
-            };
         }
         #endregion
 
@@ -674,6 +627,86 @@ namespace Semestral.Controllers
                 Titulo = "Error al registrar",
                 Mensaje = "Hubo un error con los datos, por favor revisar.",
                 Code = 400
+            };
+        }
+
+        // Darse de baja del gimnasio
+        [HttpPost]
+        [Route("retirarse/{id}")]
+        public object DarseDeBaja(int id, [FromBody] string estado)
+        {
+            if (!db.ExisteUsuario(id))
+            {
+                return new
+                {
+                    Titulo = "Error",
+                    Mensaje = "Este usuario no esta en nuestra base de datos.",
+                    Code = 409
+                };
+            }
+
+            var actualizado = db.ActualizarEstado(id, estado);
+            if (actualizado > 0)
+            {
+                return new
+                {
+                    Titulo = "Exito",
+                    Mensaje = "Los datos se han guardado correctamente",
+                    Code = 200
+                };
+            }
+
+            return new
+            {
+                Titulo = "Error al actualizar estado",
+                Mensaje = "Hubo un error con los datos, por favor revisar.",
+                Code = 400
+            };
+        }
+
+        // Creacion de las reservas
+        [HttpPost]
+        [Route("reservas/crear")]
+        public object CrearReserva([FromBody] ReservaRequest reserva)
+        {
+            if (!CapacidadValida())
+            {
+                return new
+                {
+                    Titulo = "Capacidad llena",
+                    Mensaje = "No hay disponibilidad para realizar la reserva en este momento.",
+                    Code = 400
+                };
+            }
+
+            var reservas = db.ValidarReservaPorId(reserva.usuarioId, reserva.fechaReserva);
+            if (reservas > 0)
+            {
+                return new
+                {
+                    Titulo = "Error",
+                    Mensaje = "Ya hay una reserva para esta fecha.",
+                    Code = 400
+                };
+            }
+
+            var reservaCreada = db.CrearReserva(reserva);
+            if (reservaCreada)
+            {
+                db.ActualizarCapacidad(1);
+                return new
+                {
+                    Titulo = "Reserva confirmada",
+                    Mensaje = "La reserva se ha realizado correctamente.",
+                    Code = 200
+                };
+            }
+
+            return new
+            {
+                Titulo = "Error al crear reserva",
+                Mensaje = "Hubo un problema al crear la reserva. Por favor intente de nuevo.",
+                Code = 500
             };
         }
         #endregion

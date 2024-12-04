@@ -102,6 +102,26 @@
     ]
   },
   {
+    "ContainingType": "Semestral.Controllers.GimnasioController",
+    "Method": "TraerEntrenadores",
+    "RelativePath": "api/Gimnasio/entrenadores",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[Semestral.Models.Entrenador, Semestral, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "Semestral.Controllers.UsuariosController",
     "Method": "EliminarUsuario",
     "RelativePath": "api/Usuarios/{id}",
@@ -136,7 +156,7 @@
   {
     "ContainingType": "Semestral.Controllers.UsuariosController",
     "Method": "RegistrarSalida",
-    "RelativePath": "api/Usuarios/acceso/salida",
+    "RelativePath": "api/Usuarios/acceso/salida/{qrCodigo}",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -144,6 +164,11 @@
       {
         "Name": "usuarioID",
         "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "qrCodigo",
+        "Type": "System.String",
         "IsRequired": true
       }
     ],
@@ -438,6 +463,11 @@
       {
         "Name": "id",
         "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "estado",
+        "Type": "System.String",
         "IsRequired": true
       }
     ],

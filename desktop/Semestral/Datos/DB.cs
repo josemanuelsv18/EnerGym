@@ -155,15 +155,22 @@ namespace Semestral.Datos
             return 0;
         }
 
-        public bool RegistrarEntrada(int id, string tipo, string estado)
+        public bool RegistrarEntrada(int id, string tipo, string codigoQR)
         {
             try {
                 cmd.Parameters.Clear();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO Accesos (usuarioId, tipo) VALUES (@usuarioID, @tipo);";
+                cmd.CommandText = 
+                    "INSERT INTO Accesos (usuarioId, tipoUsuario, tipo) VALUES (@usuarioID,  " +
+                    "CASE  " +
+                    "   WHEN LEN(@codigoQR) = 3 THEN 'Dueño' " +
+                    "   WHEN LEN(@codigoQR) = 4 AND LEFT(@codigoQR,1) = 'P' THEN 'Invitado' " +
+                    "   END " +
+                    ",@tipo);";
 
                 cmd.Parameters.Add(new SqlParameter("@usuarioID", id));
                 cmd.Parameters.Add(new SqlParameter("@tipo", tipo));
+                cmd.Parameters.Add(new SqlParameter("@codigoQR", codigoQR));
 
                 cmd.Connection.Open();
                 int inserted = Convert.ToInt32(cmd.ExecuteNonQuery());
@@ -177,17 +184,23 @@ namespace Semestral.Datos
             finally { cmd.Connection.Close(); }
         }
 
-        public bool RegistrarSalida(int id, string tipo, string estado)
+        public bool RegistrarSalida(int id, string tipo, string codigoQR)
         {
             try
             {
                 cmd.Parameters.Clear();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO Accesos (usuarioId, tipo) VALUES (@usuarioID, @tipo);";
+                cmd.CommandText =
+                    "INSERT INTO Accesos (usuarioId, tipoUsuario, tipo) VALUES (@usuarioID,  " +
+                    "CASE  " +
+                    "   WHEN LEN(@codigoQR) = 3 THEN 'Dueño' " +
+                    "   WHEN LEN(@codigoQR) = 4 AND LEFT(@codigoQR,1) = 'P' THEN 'Invitado' " +
+                    "   END " +
+                    ",@tipo);";
 
                 cmd.Parameters.Add(new SqlParameter("@usuarioID", id));
                 cmd.Parameters.Add(new SqlParameter("@tipo", tipo));
-                cmd.Parameters.Add(new SqlParameter("@estado", estado));
+                cmd.Parameters.Add(new SqlParameter("@codigoQR", codigoQR));
 
                 cmd.Connection.Open();
                 int inserted = Convert.ToInt32(cmd.ExecuteNonQuery());
@@ -550,7 +563,7 @@ namespace Semestral.Datos
             {
                 cmd.Parameters.Clear();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM Usuarios WHERE QRcodigo = @QRcodigo;";
+                cmd.CommandText = "SELECT * FROM Usuarios WHERE QRcodigo = @QRcodigo OR QRinvitado = @QRcodigo;";
                 cmd.Parameters.Add(new SqlParameter("@QRcodigo", qrCodigo));
 
                 cmd.Connection.Open();
@@ -645,7 +658,54 @@ namespace Semestral.Datos
             {
                 cmd.Parameters.Clear();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT TOP 1 id, created_at FROM Accesos WHERE usuarioId = @usuarioID AND tipo = 'Entrada' AND created_at >= DATEADD(HOUR, -5, GETDATE()) ORDER BY created_at DESC";
+                cmd.CommandText =
+                    "SELECT TOP 1 id, created_at " +
+                    "FROM Accesos " +
+                    "WHERE usuarioId = @usuarioID " +
+                    "    AND tipo = 'Salida' " +
+                    "    AND tipoUsuario = 'Dueño' " +
+                    "    AND created_at > ( " +
+                    "        SELECT TOP 1 created_at " +
+                    "        FROM Accesos " +
+                    "        WHERE usuarioId = @usuarioID " +
+                    "            AND tipo = 'Entrada' " +
+                    "        ORDER BY created_at DESC " +
+                    "    ) " +
+                    "ORDER BY created_at DESC;";
+                cmd.Parameters.Add(new SqlParameter("@usuarioID", usuarioID));
+
+                cmd.Connection.Open();
+                int reg = Convert.ToInt32(cmd.ExecuteScalar());
+                return reg;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            finally { cmd.Connection.Close(); }
+        }
+
+        public int ValidarInvitadoSalida(int usuarioID)
+        {
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText =
+                    "SELECT TOP 1 id, created_at " +
+                    "FROM Accesos " +
+                    "WHERE usuarioId = @usuarioID " +
+                    "    AND tipo = 'Salida' " +
+                    "    AND tipoUsuario = 'Invitado' " +
+                    "    AND created_at > ( " +
+                    "        SELECT TOP 1 created_at " +
+                    "        FROM Accesos " +
+                    "        WHERE usuarioId = @usuarioID " +
+                    "            AND tipo = 'Entrada' " +
+                    "        ORDER BY created_at DESC " +
+                    "    ) " +
+                    "ORDER BY created_at DESC;";
                 cmd.Parameters.Add(new SqlParameter("@usuarioID", usuarioID));
 
                 cmd.Connection.Open();
@@ -666,8 +726,32 @@ namespace Semestral.Datos
             {
                 cmd.Parameters.Clear();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT COUNT(*) FROM Accesos WHERE usuarioID = @usuarioID AND tipo = 'Entrada' AND NOT EXISTS (SELECT 1 FROM Accesos WHERE usuarioID = @usuarioID AND tipo = 'Salida' AND created_at > (SELECT MAX(created_at) FROM Accesos WHERE usuarioID = @usuarioID AND tipo = 'Entrada'))";
+                cmd.CommandText = "SELECT COUNT(*) FROM Accesos WHERE usuarioID = @usuarioID AND tipo = 'Entrada' AND NOT EXISTS (SELECT 1 FROM Accesos WHERE usuarioID = @usuarioID AND tipo = 'Salida' AND created_at > (SELECT MAX(created_at) FROM Accesos WHERE usuarioID = @usuarioID AND tipo = 'Entrada'));";
                 cmd.Parameters.Add(new SqlParameter("@usuarioID", usuarioID));
+
+                cmd.Connection.Open();
+                int count = Convert.ToInt32(cmd.ExecuteScalar());
+                return count > 0;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+        }
+
+        public bool ValidarInvitadoEntradaAvtiva(int usuarioID, string tipoUsuario)
+        {
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT COUNT(*) FROM Accesos WHERE usuarioID = @usuarioID AND tipo = 'Entrada' AND tipoUsuario = @tipoUsuario AND NOT EXISTS (SELECT 1 FROM Accesos WHERE usuarioID = @usuarioID AND tipo = 'Salida' AND tipoUsuario = @tipoUsuario AND created_at > (SELECT MAX(created_at) FROM Accesos WHERE usuarioID = @usuarioID AND tipo = 'Entrada' AND tipoUsuario = @tipoUsuario));";
+                cmd.Parameters.Add(new SqlParameter("@usuarioID", usuarioID));
+                cmd.Parameters.Add(new SqlParameter("@tipoUsuario", tipoUsuario));
 
                 cmd.Connection.Open();
                 int count = Convert.ToInt32(cmd.ExecuteScalar());
@@ -798,7 +882,7 @@ namespace Semestral.Datos
             }
         }
 
-        public int ValidarReservaPorId(int usuarioId, DateOnly fechaReserva)
+        public int ValidarReservaPorId(int usuarioId, DateTime fechaReserva)
         {
             try
             {

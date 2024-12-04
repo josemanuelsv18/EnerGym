@@ -2075,19 +2075,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\josem\\.nuget\\packages\\": {}
+    "C:\\Users\\derli\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\josem\\OneDrive\\Documentos\\UTP\\EnerGym\\desktop\\Semestral\\Semestral.csproj",
+      "projectUniqueName": "C:\\Users\\derli\\Documents\\GitHub\\EnerGym\\desktop\\Semestral\\Semestral.csproj",
       "projectName": "Semestral",
-      "projectPath": "C:\\Users\\josem\\OneDrive\\Documentos\\UTP\\EnerGym\\desktop\\Semestral\\Semestral.csproj",
-      "packagesPath": "C:\\Users\\josem\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\josem\\OneDrive\\Documentos\\UTP\\EnerGym\\desktop\\Semestral\\obj\\",
+      "projectPath": "C:\\Users\\derli\\Documents\\GitHub\\EnerGym\\desktop\\Semestral\\Semestral.csproj",
+      "packagesPath": "C:\\Users\\derli\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\derli\\Documents\\GitHub\\EnerGym\\desktop\\Semestral\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\josem\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\derli\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2151,7 +2151,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
