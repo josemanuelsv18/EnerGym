@@ -129,32 +129,6 @@ namespace Semestral.Datos
             finally { cmd.Connection.Close(); }
         }
 
-        public int GuardarClaseGrupal(ClaseRequest request)
-        {
-            try
-            {
-                cmd.Parameters.Clear();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO Clases (nombre, entrenador, estado, horarioInicio, horarioFinal) VALUES (@n, @e, 0, @hINI, @hFIN); SELECT SCOPE_IDENTITY();";
-                cmd.Parameters.Add(new SqlParameter("@n", request.nombre));
-                cmd.Parameters.Add(new SqlParameter("@e", request.entrenador));
-                cmd.Parameters.Add(new SqlParameter("@hINI", request.horarioInicio));
-                cmd.Parameters.Add(new SqlParameter("@hFIN", request.horarioFinal));
-
-                cmd.Connection.Open();
-                int insertedId = Convert.ToInt32(cmd.ExecuteScalar());
-                if (insertedId > 0)
-                    return insertedId;
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-            finally { cmd.Connection.Close(); }
-            return 0;
-        }
-
         public bool RegistrarEntrada(int id, string tipo, string codigoQR)
         {
             try {
@@ -242,6 +216,35 @@ namespace Semestral.Datos
                 cmd.Connection.Close();
             }
         }
+
+        public bool CrearClaseGrupal(ClaseRequest clase)
+        {
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "InsertarClaseGrupal";
+                cmd.Parameters.Add(new SqlParameter("@nombreClase", clase.nombreClase));
+                cmd.Parameters.Add(new SqlParameter("@nombreEntrenador", clase.nombreEntrenador));
+                cmd.Parameters.Add(new SqlParameter("@horarioInicio", clase.horarioInicio));
+                cmd.Parameters.Add(new SqlParameter("@horarioFinal", clase.horarioFinal));
+                cmd.Parameters.Add(new SqlParameter("@estado", clase.estado));
+
+                cmd.Connection.Open();
+                int filas = cmd.ExecuteNonQuery();
+
+                return filas > 0;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+        }
         #endregion
 
         #region READS
@@ -307,6 +310,132 @@ namespace Semestral.Datos
                 cmd.Connection.Close();
             }
             return usuarios;
+        }
+
+        public List<Clase> BuscarClases(string estado, string entrenador)
+        {
+            List<Clase> clases = new List<Clase>();
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+
+                string query =
+                    "SELECT " +
+                    "   c.id, " +
+                    "   c.nombre AS clase, " +
+                    "   e.nombre + ' ' + e.apellido AS entrenador, " +
+                    "   CASE WHEN c.estado = 0 THEN 'Pendiente' " +
+                    "        WHEN c.estado = 1 THEN 'En Curso' " +
+                    "        WHEN c.estado = 2 THEN 'Finalizada' END AS estado, " +
+                    "   CONVERT(NVARCHAR(25), c.horarioInicio) AS fechaInicio, " +
+                    "   CONVERT(NVARCHAR(25), c.horarioFinal) AS fechaFinal " +
+                    "FROM " +
+                    "   Clases c " +
+                    "JOIN " +
+                    "   Entrenadores e ON c.entrenador = e.id " +
+                    "WHERE " +
+                    "   1 = 1 ";
+
+                // Filtrar por estado si es necesario
+                if (!string.IsNullOrEmpty(estado))
+                {
+                    if (estado == "Pendiente")
+                    {
+                        query += " AND c.estado = 0";
+                    }
+                    else if (estado == "En Curso")
+                    {
+                        query += " AND c.estado = 1";
+                    }
+                    else if (estado == "Finalizada")
+                    {
+                        query += " AND c.estado = 2";
+                    }
+                }
+
+                // Filtrar por entrenador si es necesario
+                if (!string.IsNullOrEmpty(entrenador))
+                {
+                    query += " AND e.nombre + ' ' + e.apellido = @entrenador";
+                    cmd.Parameters.Add(new SqlParameter("@entrenador", entrenador));
+                }
+
+                // Agregar el ORDER BY
+                query += " ORDER BY c.horarioInicio";
+
+                cmd.CommandText = query;
+
+                cmd.Connection.Open();
+                ds = new DataSet();
+                adapter = new SqlDataAdapter(cmd);
+                adapter.Fill(ds);
+
+                // Llenar la lista de clases
+                foreach (DataTable table in ds.Tables)
+                {
+                    foreach (DataRow row in table.Rows)
+                    {
+                        var clase = new Clase()
+                        {
+                            id = Convert.ToInt32(row["id"].ToString()),
+                            clase = row["clase"].ToString(),
+                            entrenador = row["entrenador"].ToString(),
+                            estado = row["estado"].ToString(),
+                            fechaInicio = row["fechaInicio"].ToString(),
+                            fechaFinal = row["fechaFinal"].ToString()
+                        };
+                        clases.Add(clase);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+            return clases;
+        }
+
+        public List<EntrenadorNombre> ObtenerEntrenadoresNombre()
+        {
+            List<EntrenadorNombre> entrenadores = new List<EntrenadorNombre>();
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+
+                cmd.CommandText = "SELECT nombre + ' ' + apellido AS nombre FROM Entrenadores WHERE estado = 'Activo';";
+
+                cmd.Connection.Open();
+                ds = new DataSet();
+                adapter = new SqlDataAdapter(cmd);
+                adapter.Fill(ds);
+
+                foreach (DataTable table in ds.Tables)
+                {
+                    foreach (DataRow row in table.Rows)
+                    {
+                        var entrenador = new EntrenadorNombre()
+                        {
+                            nombre = row["nombre"].ToString()
+                        };
+                        entrenadores.Add(entrenador);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+            return entrenadores;
         }
 
         public bool ExisteTarjeta(int usuarioID, string numeroTarjeta)
@@ -403,6 +532,29 @@ namespace Semestral.Datos
             }
         }
 
+        public bool ExisteClase(int claseID)
+        {
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT COUNT(*) FROM Clases WHERE id = @id";
+                cmd.Parameters.Add(new SqlParameter("@id", claseID));
+
+                cmd.Connection.Open();
+                int count = Convert.ToInt32(cmd.ExecuteScalar());
+                return count > 0;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+        }
+
         public List<Deudas> ObtenerDeudaPorId(int usuarioId)
         {
             List<Deudas> deudas = new List<Deudas>();
@@ -479,6 +631,30 @@ namespace Semestral.Datos
             return capacidad;
         }
 
+        public string GimnasioOcupacionTexto()
+        {
+            string capacidad;
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT CONCAT(ocupacionActual, ' de ', capacidadMaxima, ' personas en el gimnasio') FROM Gimnasio";
+
+                cmd.Connection.Open();
+
+                capacidad = cmd.ExecuteScalar().ToString();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+            return capacidad;
+        }
+
         public string GimnasioOcupacionPorcentual()
         {
             string capacidad;
@@ -486,7 +662,7 @@ namespace Semestral.Datos
             {
                 cmd.Parameters.Clear();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT CAST((CAST(ocupacionActual AS FLOAT) / capacidadMaxima) * 100 AS VARCHAR(10)) + '%' FROM Gimnasio";
+                cmd.CommandText = "SELECT CAST(ROUND((CAST(ocupacionActual AS FLOAT) / capacidadMaxima) * 100, 0) AS VARCHAR(10)) + '%' FROM Gimnasio";
 
                 cmd.Connection.Open();
 
@@ -536,6 +712,7 @@ namespace Semestral.Datos
                     {
                         var clase = new Clase()
                         {
+                            id = Convert.ToInt32(row["id"].ToString()),
                             clase = row["clase"].ToString(),
                             entrenador = row["entrenador"].ToString(),
                             estado = row["estado"].ToString(),
@@ -866,7 +1043,7 @@ namespace Semestral.Datos
             {
                 cmd.Parameters.Clear();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT 1 FROM Reservas WHERE usuarioId = 1 AND estado = 'Activa' AND fechaReserva = CAST(GETDATE() AS DATE)";
+                cmd.CommandText = "SELECT 1 FROM Reservas WHERE usuarioId = @usuarioId AND estado = 'Activa' AND fechaReserva = CAST(GETDATE() AS DATE)";
                 cmd.Parameters.Add(new SqlParameter("@usuarioId", usuarioID));
 
                 cmd.Connection.Open();
@@ -939,6 +1116,33 @@ namespace Semestral.Datos
                 cmd.Connection.Close();
             }
             return entrenadores;
+        }
+
+        public int BuscarClasePorNombreHorarioYEstado(string nombreClase, string horarioInicio, string horarioFinal)
+        {
+            int filas;
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT 1 FROM Clases WHERE nombre = @nombreClase AND horarioInicio = @horarioInicio AND horarioFinal = @horarioFinal AND estado = 0";
+                cmd.Parameters.Add(new SqlParameter("@nombreClase", nombreClase));
+                cmd.Parameters.Add(new SqlParameter("@horarioInicio", horarioInicio));
+                cmd.Parameters.Add(new SqlParameter("@horarioFinal", horarioFinal));
+                
+                cmd.Connection.Open();
+
+                filas = Convert.ToInt32(cmd.ExecuteScalar());
+                return filas;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
         }
         #endregion
 
@@ -1055,6 +1259,38 @@ namespace Semestral.Datos
             }
         }
 
+        public int ActualizarEstadoClase(int id, string nuevoEstado)
+        {
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = 
+                    "UPDATE Clases SET " +
+                    "estado = CASE " +
+                    "            WHEN @estado = 'Pendiente' THEN 0 " +
+                    "            WHEN @estado = 'En Curso' THEN 1 " +
+                    "            WHEN @estado = 'Finalizada' THEN 2 " +
+                    "         END " +
+                    "WHERE id = @id;";
+
+                cmd.Parameters.Add(new SqlParameter("@estado", nuevoEstado));
+                cmd.Parameters.Add(new SqlParameter("@id", id));
+
+                cmd.Connection.Open();
+                int filas = cmd.ExecuteNonQuery();
+                return filas;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+        }
+
         public void ActualizarCapacidad(int val)
         {
             try
@@ -1083,7 +1319,7 @@ namespace Semestral.Datos
             {
                 cmd.Parameters.Clear();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "UPDATE Reservas SET estado = 'Cumplida' WHERE usuarioId = @usuarioId AND fechaReserva <= GETDATE()";
+                cmd.CommandText = "UPDATE Reservas SET estado = 'Cumplida' WHERE usuarioId = @usuarioId AND fechaReserva = CAST(GETDATE() AS DATE)";
                 cmd.Parameters.Add(new SqlParameter("@usuarioId", usuarioId));
 
                 cmd.Connection.Open();
@@ -1108,6 +1344,28 @@ namespace Semestral.Datos
                 cmd.Parameters.Clear();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "DELETE FROM Usuarios WHERE id = " + id;
+
+                cmd.Connection.Open();
+                int insertedId = Convert.ToInt32(cmd.ExecuteNonQuery());
+                if (insertedId > 0)
+                    return insertedId;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            finally { cmd.Connection.Close(); }
+            return 0;
+        }
+
+        public int BorrarClase(int id)
+        {
+            try
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "DELETE FROM Clases WHERE id = " + id;
 
                 cmd.Connection.Open();
                 int insertedId = Convert.ToInt32(cmd.ExecuteNonQuery());

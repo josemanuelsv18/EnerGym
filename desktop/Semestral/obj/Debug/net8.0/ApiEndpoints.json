@@ -27,6 +27,69 @@
   },
   {
     "ContainingType": "Semestral.Controllers.ClasesController",
+    "Method": "EliminarClase",
+    "RelativePath": "api/Clases/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Semestral.Controllers.ClasesController",
+    "Method": "BuscarClases",
+    "RelativePath": "api/Clases/buscar",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "estado",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "entrenador",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[Semestral.Models.Clase, Semestral, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Semestral.Controllers.ClasesController",
+    "Method": "CrearClaseGrupal",
+    "RelativePath": "api/Clases/crear",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clase",
+        "Type": "Semestral.Models.ClaseRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Semestral.Controllers.ClasesController",
     "Method": "ObtenerClasesDisponibles",
     "RelativePath": "api/Clases/disponibles",
     "HttpMethod": "GET",
@@ -47,15 +110,40 @@
   },
   {
     "ContainingType": "Semestral.Controllers.ClasesController",
-    "Method": "CrearClaseGrupal",
-    "RelativePath": "api/Clases/guardar",
+    "Method": "ObtenerNombreEntrenadores",
+    "RelativePath": "api/Clases/entrenadores",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[Semestral.Models.EntrenadorNombre, Semestral, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Semestral.Controllers.ClasesController",
+    "Method": "ActualizarEstadoClase",
+    "RelativePath": "api/Clases/estado/{id}",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "request",
-        "Type": "Semestral.Models.ClaseRequest",
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "nuevoEstado",
+        "Type": "System.String",
         "IsRequired": true
       }
     ],
@@ -71,7 +159,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Int32",
+        "Type": "System.String",
         "MediaTypes": [
           "text/plain",
           "application/json",

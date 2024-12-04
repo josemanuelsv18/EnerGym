@@ -15,9 +15,9 @@ namespace Semestral.Controllers
         // Obtener la ocupación actual del gimnasio
         [HttpGet]
         [Route("capacidad-actual")]
-        public int ObtenerOcupacionActual()
+        public string ObtenerOcupacionActual()
         {
-            return db.GimnasioOcupacionActual();
+            return db.GimnasioOcupacionTexto();
         }
         #endregion
 
