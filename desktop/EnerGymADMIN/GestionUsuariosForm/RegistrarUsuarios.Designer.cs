@@ -38,18 +38,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.radPremium = new System.Windows.Forms.RadioButton();
-            this.radGeneral = new System.Windows.Forms.RadioButton();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudEdad)).BeginInit();
-            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -157,16 +152,6 @@
             this.label5.TabIndex = 11;
             this.label5.Text = "Edad";
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(50, 435);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(64, 21);
-            this.label6.TabIndex = 12;
-            this.label6.Text = "Estado";
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -176,39 +161,6 @@
             this.label7.Size = new System.Drawing.Size(176, 49);
             this.label7.TabIndex = 13;
             this.label7.Text = "Registro";
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.radPremium);
-            this.panel1.Controls.Add(this.radGeneral);
-            this.panel1.Location = new System.Drawing.Point(54, 458);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(104, 63);
-            this.panel1.TabIndex = 14;
-            // 
-            // radPremium
-            // 
-            this.radPremium.AutoSize = true;
-            this.radPremium.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radPremium.Location = new System.Drawing.Point(3, 33);
-            this.radPremium.Name = "radPremium";
-            this.radPremium.Size = new System.Drawing.Size(95, 25);
-            this.radPremium.TabIndex = 1;
-            this.radPremium.TabStop = true;
-            this.radPremium.Text = "Premium";
-            this.radPremium.UseVisualStyleBackColor = true;
-            // 
-            // radGeneral
-            // 
-            this.radGeneral.AutoSize = true;
-            this.radGeneral.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radGeneral.Location = new System.Drawing.Point(3, 3);
-            this.radGeneral.Name = "radGeneral";
-            this.radGeneral.Size = new System.Drawing.Size(91, 25);
-            this.radGeneral.TabIndex = 0;
-            this.radGeneral.TabStop = true;
-            this.radGeneral.Text = "General";
-            this.radGeneral.UseVisualStyleBackColor = true;
             // 
             // pictureBox2
             // 
@@ -273,9 +225,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.pictureBox2);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label2);
@@ -290,8 +240,6 @@
             this.Text = "RegistrarUsuarios";
             this.Load += new System.EventHandler(this.RegistrarUsuarios_Load);
             ((System.ComponentModel.ISupportInitialize)(this.nudEdad)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -312,11 +260,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.RadioButton radPremium;
-        private System.Windows.Forms.RadioButton radGeneral;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Label label3;

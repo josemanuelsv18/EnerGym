@@ -76,11 +76,11 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvClases.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvClases.Location = new System.Drawing.Point(537, 35);
+            this.dgvClases.Location = new System.Drawing.Point(510, 35);
             this.dgvClases.Name = "dgvClases";
             this.dgvClases.ReadOnly = true;
             this.dgvClases.RowHeadersWidth = 51;
-            this.dgvClases.Size = new System.Drawing.Size(1136, 545);
+            this.dgvClases.Size = new System.Drawing.Size(725, 545);
             this.dgvClases.TabIndex = 0;
             this.dgvClases.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClases_CellClick);
             // 
@@ -133,7 +133,7 @@
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1680, 594);
+            this.panel1.Size = new System.Drawing.Size(1242, 594);
             this.panel1.TabIndex = 7;
             // 
             // pictureBox2
@@ -151,7 +151,7 @@
             this.lblError.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblError.AutoSize = true;
             this.lblError.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblError.Location = new System.Drawing.Point(824, 232);
+            this.lblError.Location = new System.Drawing.Point(605, 232);
             this.lblError.Name = "lblError";
             this.lblError.Size = new System.Drawing.Size(0, 46);
             this.lblError.TabIndex = 6;
@@ -274,7 +274,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1443, 618);
+            this.ClientSize = new System.Drawing.Size(1266, 618);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "ClasesGrupales";

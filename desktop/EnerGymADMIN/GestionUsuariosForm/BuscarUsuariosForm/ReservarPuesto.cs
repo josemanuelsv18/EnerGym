@@ -29,15 +29,24 @@ namespace EnerGymADMIN.GestionUsuariosForm.BuscarUsuariosForm
 
             DateTime fechaSola = fechaSeleccionada.Date;
 
-            var reserva = new ReservaRequest()
+            if (fechaSola < DateTime.Now)
             {
-                usuarioId = usuarioSeleccionado.id,
-                fechaReserva = fechaSola
-            };
+                MessageBox.Show("No se puede seleccionar una fecha anterior a la de hoy", "Error");
+            }
+            else
+            {
+                var reserva = new ReservaRequest()
+                {
+                    usuarioId = usuarioSeleccionado.id,
+                    fechaReserva = fechaSola
+                };
 
-            var respuesta = await usuarioService.ReservarPuesto(reserva);
-            MessageBox.Show(respuesta.Mensaje, respuesta.Titulo);
-            this.Close();
+                var respuesta = await usuarioService.ReservarPuesto(reserva);
+                MessageBox.Show(respuesta.Mensaje, respuesta.Titulo);
+                this.Close();
+            }
+
+            
         }
     }
 }

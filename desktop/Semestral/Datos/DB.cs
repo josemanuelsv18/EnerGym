@@ -246,7 +246,7 @@ namespace Semestral.Datos
                 cmd.Parameters.Clear();
                 cmd.CommandType = CommandType.Text;
 
-                string query = "SELECT r.id, u.nombre + ' ' + u.apellido AS nombre, r.fechaReserva, r.estado, r.created_at, r.updated_at FROM Reservas AS r JOIN Usuarios AS u ON r.usuarioId = r.id WHERE 1 = 1";
+                string query = "SELECT r.id, u.nombre + ' ' + u.apellido AS nombre, r.fechaReserva, r.estado, r.created_at, r.updated_at FROM Reservas AS r JOIN Usuarios AS u ON r.usuarioId = u.id WHERE 1 = 1";
                 if (!string.IsNullOrEmpty(nombre))
                 {
                     query += " AND nombre = @nombre";

@@ -50,22 +50,12 @@ namespace EnerGymADMIN.GestionUsuariosForm
 
         private async void btnRegistrar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtNombre.Text) || string.IsNullOrEmpty(txtApellido.Text) || string.IsNullOrEmpty(txtCedula.Text) || nudEdad.Value < 15 || (!radGeneral.Checked && !radPremium.Checked))
+            if (string.IsNullOrEmpty(txtNombre.Text) || string.IsNullOrEmpty(txtApellido.Text) || string.IsNullOrEmpty(txtCedula.Text) || nudEdad.Value < 15)
             {
                 MessageBox.Show("Debe rellenar todos los datos, por favor corrija.", "Error");
             }
             else
             {
-                if (radGeneral.Checked)
-                {
-                    estadoSelec = radGeneral.Text;
-                }
-
-                if (radPremium.Checked)
-                {
-                    estadoSelec = radPremium.Text;
-                }
-
                 var usuario = new UsuarioRequest()
                 {
                     nombre = txtNombre.Text,
@@ -73,7 +63,7 @@ namespace EnerGymADMIN.GestionUsuariosForm
                     contraseña = txtNombre.Text.ToLower(),
                     cedula = txtCedula.Text,
                     edad = Convert.ToInt32(nudEdad.Value),
-                    estado = estadoSelec
+                    estado = "General"
                 };
 
                 var respuesta = await usuarioService.GuardarUsuarios(usuario);
