@@ -1,12 +1,216 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\derli\\Documents\\C# Documents\\EnerGymADMIN\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\Users\\karen\\OneDrive\\Documentos\\GitHub\\EnerGym\\desktop\\EnerGymADMIN\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B852D2B1-A2A1-49E1-B521-E18DA5995B29}|EnerGymADMIN.csproj|c:\\users\\karen\\onedrive\\documentos\\github\\energym\\desktop\\energymadmin\\accesoform\\accesosalida.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{B852D2B1-A2A1-49E1-B521-E18DA5995B29}|EnerGymADMIN.csproj|solutionrelative:accesoform\\accesosalida.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B852D2B1-A2A1-49E1-B521-E18DA5995B29}|EnerGymADMIN.csproj|c:\\users\\karen\\onedrive\\documentos\\github\\energym\\desktop\\energymadmin\\accesoform\\accesoentrada.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{B852D2B1-A2A1-49E1-B521-E18DA5995B29}|EnerGymADMIN.csproj|solutionrelative:accesoform\\accesoentrada.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B852D2B1-A2A1-49E1-B521-E18DA5995B29}|EnerGymADMIN.csproj|c:\\users\\karen\\onedrive\\documentos\\github\\energym\\desktop\\energymadmin\\clasesgrupalesform\\actualizarestadoclase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{B852D2B1-A2A1-49E1-B521-E18DA5995B29}|EnerGymADMIN.csproj|solutionrelative:clasesgrupalesform\\actualizarestadoclase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B852D2B1-A2A1-49E1-B521-E18DA5995B29}|EnerGymADMIN.csproj|c:\\users\\karen\\onedrive\\documentos\\github\\energym\\desktop\\energymadmin\\clasesgrupalesform\\registrarclase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{B852D2B1-A2A1-49E1-B521-E18DA5995B29}|EnerGymADMIN.csproj|solutionrelative:clasesgrupalesform\\registrarclase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B852D2B1-A2A1-49E1-B521-E18DA5995B29}|EnerGymADMIN.csproj|c:\\users\\karen\\onedrive\\documentos\\github\\energym\\desktop\\energymadmin\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{B852D2B1-A2A1-49E1-B521-E18DA5995B29}|EnerGymADMIN.csproj|solutionrelative:login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B852D2B1-A2A1-49E1-B521-E18DA5995B29}|EnerGymADMIN.csproj|c:\\users\\karen\\onedrive\\documentos\\github\\energym\\desktop\\energymadmin\\inicio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{B852D2B1-A2A1-49E1-B521-E18DA5995B29}|EnerGymADMIN.csproj|solutionrelative:inicio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B852D2B1-A2A1-49E1-B521-E18DA5995B29}|EnerGymADMIN.csproj|c:\\users\\karen\\onedrive\\documentos\\github\\energym\\desktop\\energymadmin\\gestionusuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{B852D2B1-A2A1-49E1-B521-E18DA5995B29}|EnerGymADMIN.csproj|solutionrelative:gestionusuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B852D2B1-A2A1-49E1-B521-E18DA5995B29}|EnerGymADMIN.csproj|c:\\users\\karen\\onedrive\\documentos\\github\\energym\\desktop\\energymadmin\\clasesgrupales.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{B852D2B1-A2A1-49E1-B521-E18DA5995B29}|EnerGymADMIN.csproj|solutionrelative:clasesgrupales.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B852D2B1-A2A1-49E1-B521-E18DA5995B29}|EnerGymADMIN.csproj|c:\\users\\karen\\onedrive\\documentos\\github\\energym\\desktop\\energymadmin\\acceso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{B852D2B1-A2A1-49E1-B521-E18DA5995B29}|EnerGymADMIN.csproj|solutionrelative:acceso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B852D2B1-A2A1-49E1-B521-E18DA5995B29}|EnerGymADMIN.csproj|c:\\users\\karen\\onedrive\\documentos\\github\\energym\\desktop\\energymadmin\\gestionusuariosform\\verreservas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{B852D2B1-A2A1-49E1-B521-E18DA5995B29}|EnerGymADMIN.csproj|solutionrelative:gestionusuariosform\\verreservas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B852D2B1-A2A1-49E1-B521-E18DA5995B29}|EnerGymADMIN.csproj|c:\\users\\karen\\onedrive\\documentos\\github\\energym\\desktop\\energymadmin\\gestionusuariosform\\registrarusuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{B852D2B1-A2A1-49E1-B521-E18DA5995B29}|EnerGymADMIN.csproj|solutionrelative:gestionusuariosform\\registrarusuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B852D2B1-A2A1-49E1-B521-E18DA5995B29}|EnerGymADMIN.csproj|c:\\users\\karen\\onedrive\\documentos\\github\\energym\\desktop\\energymadmin\\gestionusuariosform\\buscarusuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{B852D2B1-A2A1-49E1-B521-E18DA5995B29}|EnerGymADMIN.csproj|solutionrelative:gestionusuariosform\\buscarusuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "RegistrarClase.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\karen\\OneDrive\\Documentos\\GitHub\\EnerGym\\desktop\\EnerGymADMIN\\ClasesGrupalesForm\\RegistrarClase.cs",
+              "RelativeDocumentMoniker": "ClasesGrupalesForm\\RegistrarClase.cs",
+              "ToolTip": "C:\\Users\\karen\\OneDrive\\Documentos\\GitHub\\EnerGym\\desktop\\EnerGymADMIN\\ClasesGrupalesForm\\RegistrarClase.cs [Dise\u00F1o]*",
+              "RelativeToolTip": "ClasesGrupalesForm\\RegistrarClase.cs [Dise\u00F1o]*",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-05T05:22:40.225Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AccesoEntrada.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\karen\\OneDrive\\Documentos\\GitHub\\EnerGym\\desktop\\EnerGymADMIN\\AccesoForm\\AccesoEntrada.cs",
+              "RelativeDocumentMoniker": "AccesoForm\\AccesoEntrada.cs",
+              "ToolTip": "C:\\Users\\karen\\OneDrive\\Documentos\\GitHub\\EnerGym\\desktop\\EnerGymADMIN\\AccesoForm\\AccesoEntrada.cs [Dise\u00F1o]*",
+              "RelativeToolTip": "AccesoForm\\AccesoEntrada.cs [Dise\u00F1o]*",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-05T00:58:48.101Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AccesoSalida.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\karen\\OneDrive\\Documentos\\GitHub\\EnerGym\\desktop\\EnerGymADMIN\\AccesoForm\\AccesoSalida.cs",
+              "RelativeDocumentMoniker": "AccesoForm\\AccesoSalida.cs",
+              "ToolTip": "C:\\Users\\karen\\OneDrive\\Documentos\\GitHub\\EnerGym\\desktop\\EnerGymADMIN\\AccesoForm\\AccesoSalida.cs [Dise\u00F1o]*",
+              "RelativeToolTip": "AccesoForm\\AccesoSalida.cs [Dise\u00F1o]*",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-05T00:59:53.047Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ActualizarEstadoClase.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\karen\\OneDrive\\Documentos\\GitHub\\EnerGym\\desktop\\EnerGymADMIN\\ClasesGrupalesForm\\ActualizarEstadoClase.cs",
+              "RelativeDocumentMoniker": "ClasesGrupalesForm\\ActualizarEstadoClase.cs",
+              "ToolTip": "C:\\Users\\karen\\OneDrive\\Documentos\\GitHub\\EnerGym\\desktop\\EnerGymADMIN\\ClasesGrupalesForm\\ActualizarEstadoClase.cs [Dise\u00F1o]*",
+              "RelativeToolTip": "ClasesGrupalesForm\\ActualizarEstadoClase.cs [Dise\u00F1o]*",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-05T01:00:04.677Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Login.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\karen\\OneDrive\\Documentos\\GitHub\\EnerGym\\desktop\\EnerGymADMIN\\Login.cs",
+              "RelativeDocumentMoniker": "Login.cs",
+              "ToolTip": "C:\\Users\\karen\\OneDrive\\Documentos\\GitHub\\EnerGym\\desktop\\EnerGymADMIN\\Login.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Login.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-05T01:02:52.418Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Inicio.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\karen\\OneDrive\\Documentos\\GitHub\\EnerGym\\desktop\\EnerGymADMIN\\Inicio.cs",
+              "RelativeDocumentMoniker": "Inicio.cs",
+              "ToolTip": "C:\\Users\\karen\\OneDrive\\Documentos\\GitHub\\EnerGym\\desktop\\EnerGymADMIN\\Inicio.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Inicio.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-05T01:02:43.02Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "GestionUsuarios.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\karen\\OneDrive\\Documentos\\GitHub\\EnerGym\\desktop\\EnerGymADMIN\\GestionUsuarios.cs",
+              "RelativeDocumentMoniker": "GestionUsuarios.cs",
+              "ToolTip": "C:\\Users\\karen\\OneDrive\\Documentos\\GitHub\\EnerGym\\desktop\\EnerGymADMIN\\GestionUsuarios.cs [Dise\u00F1o]",
+              "RelativeToolTip": "GestionUsuarios.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-05T01:02:41.386Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ClasesGrupales.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\karen\\OneDrive\\Documentos\\GitHub\\EnerGym\\desktop\\EnerGymADMIN\\ClasesGrupales.cs",
+              "RelativeDocumentMoniker": "ClasesGrupales.cs",
+              "ToolTip": "C:\\Users\\karen\\OneDrive\\Documentos\\GitHub\\EnerGym\\desktop\\EnerGymADMIN\\ClasesGrupales.cs [Dise\u00F1o]",
+              "RelativeToolTip": "ClasesGrupales.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-05T01:02:19.346Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Acceso.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\karen\\OneDrive\\Documentos\\GitHub\\EnerGym\\desktop\\EnerGymADMIN\\Acceso.cs",
+              "RelativeDocumentMoniker": "Acceso.cs",
+              "ToolTip": "C:\\Users\\karen\\OneDrive\\Documentos\\GitHub\\EnerGym\\desktop\\EnerGymADMIN\\Acceso.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Acceso.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-05T01:02:05.732Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "VerReservas.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\karen\\OneDrive\\Documentos\\GitHub\\EnerGym\\desktop\\EnerGymADMIN\\GestionUsuariosForm\\VerReservas.cs",
+              "RelativeDocumentMoniker": "GestionUsuariosForm\\VerReservas.cs",
+              "ToolTip": "C:\\Users\\karen\\OneDrive\\Documentos\\GitHub\\EnerGym\\desktop\\EnerGymADMIN\\GestionUsuariosForm\\VerReservas.cs [Dise\u00F1o]",
+              "RelativeToolTip": "GestionUsuariosForm\\VerReservas.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-05T01:01:32.325Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "RegistrarUsuarios.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\karen\\OneDrive\\Documentos\\GitHub\\EnerGym\\desktop\\EnerGymADMIN\\GestionUsuariosForm\\RegistrarUsuarios.cs",
+              "RelativeDocumentMoniker": "GestionUsuariosForm\\RegistrarUsuarios.cs",
+              "ToolTip": "C:\\Users\\karen\\OneDrive\\Documentos\\GitHub\\EnerGym\\desktop\\EnerGymADMIN\\GestionUsuariosForm\\RegistrarUsuarios.cs [Dise\u00F1o]",
+              "RelativeToolTip": "GestionUsuariosForm\\RegistrarUsuarios.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-05T01:01:03.013Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "BuscarUsuarios.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\karen\\OneDrive\\Documentos\\GitHub\\EnerGym\\desktop\\EnerGymADMIN\\GestionUsuariosForm\\BuscarUsuarios.cs",
+              "RelativeDocumentMoniker": "GestionUsuariosForm\\BuscarUsuarios.cs",
+              "ToolTip": "C:\\Users\\karen\\OneDrive\\Documentos\\GitHub\\EnerGym\\desktop\\EnerGymADMIN\\GestionUsuariosForm\\BuscarUsuarios.cs [Dise\u00F1o]",
+              "RelativeToolTip": "GestionUsuariosForm\\BuscarUsuarios.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-05T01:00:39.492Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

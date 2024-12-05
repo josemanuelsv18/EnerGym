@@ -30,6 +30,7 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClasesGrupales));
             this.dgvClases = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.btnBuscar = new System.Windows.Forms.Button();
@@ -43,9 +44,15 @@
             this.btnElim = new System.Windows.Forms.Button();
             this.btnRegistrar = new System.Windows.Forms.Button();
             this.btnActualizar = new System.Windows.Forms.Button();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClases)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvClases
@@ -69,10 +76,12 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvClases.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvClases.Location = new System.Drawing.Point(537, 35);
+            this.dgvClases.Location = new System.Drawing.Point(716, 43);
+            this.dgvClases.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dgvClases.Name = "dgvClases";
             this.dgvClases.ReadOnly = true;
-            this.dgvClases.Size = new System.Drawing.Size(1136, 545);
+            this.dgvClases.RowHeadersWidth = 51;
+            this.dgvClases.Size = new System.Drawing.Size(1515, 671);
             this.dgvClases.TabIndex = 0;
             this.dgvClases.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClases_CellClick);
             // 
@@ -80,36 +89,40 @@
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(87, 6);
+            this.label1.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(139, 63);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(237, 29);
+            this.label1.Size = new System.Drawing.Size(311, 37);
             this.label1.TabIndex = 2;
             this.label1.Text = "Buscardor de Clases";
             // 
             // btnBuscar
             // 
             this.btnBuscar.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnBuscar.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBuscar.Location = new System.Drawing.Point(117, 248);
+            this.btnBuscar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(155)))), ((int)(((byte)(63)))));
+            this.btnBuscar.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBuscar.Location = new System.Drawing.Point(159, 352);
+            this.btnBuscar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(212, 79);
+            this.btnBuscar.Size = new System.Drawing.Size(274, 77);
             this.btnBuscar.TabIndex = 5;
             this.btnBuscar.Text = "Buscar";
-            this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.UseVisualStyleBackColor = false;
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // cmbOpcion
             // 
             this.cmbOpcion.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.cmbOpcion.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbOpcion.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbOpcion.FormattingEnabled = true;
             this.cmbOpcion.Items.AddRange(new object[] {
             "Estado",
             "Entrenador"});
-            this.cmbOpcion.Location = new System.Drawing.Point(75, 94);
+            this.cmbOpcion.Location = new System.Drawing.Point(104, 190);
+            this.cmbOpcion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cmbOpcion.Name = "cmbOpcion";
-            this.cmbOpcion.Size = new System.Drawing.Size(286, 37);
+            this.cmbOpcion.Size = new System.Drawing.Size(380, 45);
             this.cmbOpcion.TabIndex = 4;
             this.cmbOpcion.SelectedIndexChanged += new System.EventHandler(this.cmbOpcion_SelectedIndexChanged);
             // 
@@ -118,12 +131,14 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.pictureBox2);
             this.panel1.Controls.Add(this.lblError);
             this.panel1.Controls.Add(this.dgvClases);
             this.panel1.Controls.Add(this.panel2);
-            this.panel1.Location = new System.Drawing.Point(12, 12);
+            this.panel1.Location = new System.Drawing.Point(16, 15);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1680, 594);
+            this.panel1.Size = new System.Drawing.Size(2240, 731);
             this.panel1.TabIndex = 7;
             // 
             // lblError
@@ -131,14 +146,17 @@
             this.lblError.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblError.AutoSize = true;
             this.lblError.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblError.Location = new System.Drawing.Point(824, 232);
+            this.lblError.Location = new System.Drawing.Point(1099, 286);
+            this.lblError.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblError.Name = "lblError";
-            this.lblError.Size = new System.Drawing.Size(0, 46);
+            this.lblError.Size = new System.Drawing.Size(0, 58);
             this.lblError.TabIndex = 6;
             // 
             // panel2
             // 
             this.panel2.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.panel2.Controls.Add(this.pictureBox1);
+            this.panel2.Controls.Add(this.pictureBox3);
             this.panel2.Controls.Add(this.label3);
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.cmbInfo);
@@ -148,19 +166,21 @@
             this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.btnBuscar);
             this.panel2.Controls.Add(this.cmbOpcion);
-            this.panel2.Location = new System.Drawing.Point(36, 35);
+            this.panel2.Location = new System.Drawing.Point(48, 43);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(442, 545);
+            this.panel2.Size = new System.Drawing.Size(589, 671);
             this.panel2.TabIndex = 7;
             // 
             // label3
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(71, 155);
+            this.label3.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(98, 238);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(217, 29);
+            this.label3.Size = new System.Drawing.Size(285, 37);
             this.label3.TabIndex = 12;
             this.label3.Text = "Filtro de Busqueda";
             // 
@@ -168,68 +188,105 @@
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(71, 62);
+            this.label2.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(99, 150);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(137, 29);
+            this.label2.Size = new System.Drawing.Size(175, 37);
             this.label2.TabIndex = 11;
             this.label2.Text = "Buscar Por:";
             // 
             // cmbInfo
             // 
             this.cmbInfo.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.cmbInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbInfo.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbInfo.FormattingEnabled = true;
             this.cmbInfo.Items.AddRange(new object[] {
             "Estado",
             "Entrenador"});
-            this.cmbInfo.Location = new System.Drawing.Point(75, 187);
+            this.cmbInfo.Location = new System.Drawing.Point(103, 277);
+            this.cmbInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cmbInfo.Name = "cmbInfo";
-            this.cmbInfo.Size = new System.Drawing.Size(286, 37);
+            this.cmbInfo.Size = new System.Drawing.Size(380, 45);
             this.cmbInfo.TabIndex = 10;
             // 
             // btnElim
             // 
             this.btnElim.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnElim.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnElim.Location = new System.Drawing.Point(110, 457);
+            this.btnElim.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(155)))), ((int)(((byte)(63)))));
+            this.btnElim.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnElim.Location = new System.Drawing.Point(146, 548);
+            this.btnElim.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnElim.Name = "btnElim";
-            this.btnElim.Size = new System.Drawing.Size(212, 79);
+            this.btnElim.Size = new System.Drawing.Size(283, 97);
             this.btnElim.TabIndex = 8;
             this.btnElim.Text = "Eliminar \r\nClase";
-            this.btnElim.UseVisualStyleBackColor = true;
+            this.btnElim.UseVisualStyleBackColor = false;
             this.btnElim.Click += new System.EventHandler(this.btnElim_Click);
             // 
             // btnRegistrar
             // 
             this.btnRegistrar.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnRegistrar.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRegistrar.Location = new System.Drawing.Point(3, 372);
+            this.btnRegistrar.BackColor = System.Drawing.Color.Gray;
+            this.btnRegistrar.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRegistrar.Location = new System.Drawing.Point(4, 457);
+            this.btnRegistrar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnRegistrar.Name = "btnRegistrar";
-            this.btnRegistrar.Size = new System.Drawing.Size(212, 79);
+            this.btnRegistrar.Size = new System.Drawing.Size(270, 83);
             this.btnRegistrar.TabIndex = 7;
             this.btnRegistrar.Text = "Registrar Clase";
-            this.btnRegistrar.UseVisualStyleBackColor = true;
+            this.btnRegistrar.UseVisualStyleBackColor = false;
             this.btnRegistrar.Click += new System.EventHandler(this.btnRegistrar_Click);
             // 
             // btnActualizar
             // 
             this.btnActualizar.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnActualizar.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnActualizar.Location = new System.Drawing.Point(221, 372);
+            this.btnActualizar.BackColor = System.Drawing.Color.Silver;
+            this.btnActualizar.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnActualizar.Location = new System.Drawing.Point(311, 458);
+            this.btnActualizar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnActualizar.Name = "btnActualizar";
-            this.btnActualizar.Size = new System.Drawing.Size(212, 79);
+            this.btnActualizar.Size = new System.Drawing.Size(267, 82);
             this.btnActualizar.TabIndex = 6;
             this.btnActualizar.Text = "Actualizar Estado";
-            this.btnActualizar.UseVisualStyleBackColor = true;
+            this.btnActualizar.UseVisualStyleBackColor = false;
             this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox2.BackgroundImage")));
+            this.pictureBox2.Location = new System.Drawing.Point(40, 39);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(602, 28);
+            this.pictureBox2.TabIndex = 44;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
+            this.pictureBox3.Location = new System.Drawing.Point(4, 21);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(125, 96);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox3.TabIndex = 43;
+            this.pictureBox3.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
+            this.pictureBox1.Location = new System.Drawing.Point(-8, 652);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(602, 28);
+            this.pictureBox1.TabIndex = 45;
+            this.pictureBox1.TabStop = false;
             // 
             // ClasesGrupales
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1704, 618);
+            this.ClientSize = new System.Drawing.Size(1924, 761);
             this.Controls.Add(this.panel1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "ClasesGrupales";
             this.Text = "ClasesGrupales";
             this.Load += new System.EventHandler(this.ClasesGrupales_Load);
@@ -238,6 +295,9 @@
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -257,5 +317,8 @@
         private System.Windows.Forms.ComboBox cmbInfo;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBox3;
     }
 }
