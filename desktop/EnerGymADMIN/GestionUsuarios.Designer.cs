@@ -45,10 +45,9 @@
             // 
             this.btnReservas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(155)))), ((int)(((byte)(63)))));
             this.btnReservas.Font = new System.Drawing.Font("Century Gothic", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReservas.Location = new System.Drawing.Point(272, 414);
-            this.btnReservas.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnReservas.Location = new System.Drawing.Point(204, 336);
             this.btnReservas.Name = "btnReservas";
-            this.btnReservas.Size = new System.Drawing.Size(496, 103);
+            this.btnReservas.Size = new System.Drawing.Size(372, 84);
             this.btnReservas.TabIndex = 5;
             this.btnReservas.Text = "Ver Reservas";
             this.btnReservas.UseVisualStyleBackColor = false;
@@ -58,10 +57,9 @@
             // 
             this.btnBuscar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(155)))), ((int)(((byte)(63)))));
             this.btnBuscar.Font = new System.Drawing.Font("Century Gothic", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBuscar.Location = new System.Drawing.Point(272, 303);
-            this.btnBuscar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBuscar.Location = new System.Drawing.Point(204, 246);
             this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(496, 103);
+            this.btnBuscar.Size = new System.Drawing.Size(372, 84);
             this.btnBuscar.TabIndex = 4;
             this.btnBuscar.Text = "Buscar Usuario";
             this.btnBuscar.UseVisualStyleBackColor = false;
@@ -71,10 +69,9 @@
             // 
             this.btnRegistrar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(155)))), ((int)(((byte)(63)))));
             this.btnRegistrar.Font = new System.Drawing.Font("Century Gothic", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRegistrar.Location = new System.Drawing.Point(272, 192);
-            this.btnRegistrar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnRegistrar.Location = new System.Drawing.Point(204, 156);
             this.btnRegistrar.Name = "btnRegistrar";
-            this.btnRegistrar.Size = new System.Drawing.Size(496, 103);
+            this.btnRegistrar.Size = new System.Drawing.Size(372, 84);
             this.btnRegistrar.TabIndex = 3;
             this.btnRegistrar.Text = "Registrar Usuario";
             this.btnRegistrar.UseVisualStyleBackColor = false;
@@ -83,10 +80,9 @@
             // label1
             // 
             this.label1.Font = new System.Drawing.Font("Century Gothic", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(261, 42);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(196, 34);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(518, 117);
+            this.label1.Size = new System.Drawing.Size(388, 119);
             this.label1.TabIndex = 6;
             this.label1.Text = "Gestión de Usuarios";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -94,18 +90,20 @@
             // pictureBox2
             // 
             this.pictureBox2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox2.BackgroundImage")));
-            this.pictureBox2.Location = new System.Drawing.Point(-7, -10);
+            this.pictureBox2.Location = new System.Drawing.Point(-5, -8);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(1081, 49);
+            this.pictureBox2.Size = new System.Drawing.Size(811, 40);
             this.pictureBox2.TabIndex = 40;
             this.pictureBox2.TabStop = false;
             // 
             // pictureBox3
             // 
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(2, 35);
+            this.pictureBox3.Location = new System.Drawing.Point(2, 28);
+            this.pictureBox3.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(137, 114);
+            this.pictureBox3.Size = new System.Drawing.Size(103, 93);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox3.TabIndex = 42;
             this.pictureBox3.TabStop = false;
@@ -113,17 +111,18 @@
             // pictureBox1
             // 
             this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
-            this.pictureBox1.Location = new System.Drawing.Point(-7, 526);
+            this.pictureBox1.Location = new System.Drawing.Point(-5, 427);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1081, 38);
+            this.pictureBox1.Size = new System.Drawing.Size(811, 31);
             this.pictureBox1.TabIndex = 43;
             this.pictureBox1.TabStop = false;
             // 
             // GestionUsuarios
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1067, 554);
+            this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.label1);
@@ -131,7 +130,7 @@
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.btnRegistrar);
             this.Controls.Add(this.pictureBox3);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "GestionUsuarios";
             this.Text = "GestionUsuarios";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
